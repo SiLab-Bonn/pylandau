@@ -1,5 +1,5 @@
-// Taken from LCG ROOT MathLib with
-
+// Taken from LCG ROOT MathLib
+// License info:
 // Authors: Andras Zsenei & Lorenzo Moneta   06/2005
 
 /**********************************************************************
@@ -9,16 +9,20 @@
  *                                                                    *
  **********************************************************************/
 
-// Changes by David-Leon Pohl
+// Langaus authors:
+//  Based on a Fortran code by R.Fruehwirth (fruhwirth@hephy.oeaw.ac.at)
+//  Adapted for C++/ROOT by H.Pernegger (Heinz.Pernegger@cern.ch) and
+//  Markus Friedl (Markus.Friedl@cern.ch)
+
+// Adaption for Python by David-Leon Pohl, pohl@physik.uni-bonn.de
 
 #pragma once
 #include <cmath>
 
+const double invsq2pi = 0.3989422804014;   // (2 pi)^(-1/2)
 
-double landau_pdf(double x, double xi, double x0) {
-	// LANDAU pdf : algorithm from CERNLIB G110 denlan
-	// same algorithm is used in GSL
-
+double landauPDF(const double& x, const double& x0, const double& xi)  // same algorithm is used in GSL
+{
 	static double p1[5] =
 	{ 0.4259894875, -0.1249762550, 0.03984243700, -0.006298287635, 0.001511162253 };
 	static double q1[5] =
@@ -96,10 +100,67 @@ double landau_pdf(double x, double xi, double x0) {
 	return denlan / xi;
 }
 
-double* getLandauData(double*& data, const unsigned int& size, const double& eta, const double& mu) {
+double gaussPDF(const double& x, const double& mu, const double& sigma)
+{
+	return invsq2pi / sigma * exp(- pow((x - mu), 2) / (2 * pow(sigma, 2)));
+}
+
+double landauGaussPDF(const double& x, const double& mu, const double& eta, const double& sigma)
+{
+	// Numeric constants
+	double mpshift = -0.22278298;     // Landau maximum location, no at xi for above definition!
+
+	// Control constants
+	const unsigned int np = 100;      // number of convolution steps
+	const unsigned int sc = 8;        // convolution extends to +-sc Gaussian sigmas
+
+	// Variables
+	double xx;
+	double mpc;
+	double fland;
+	double sum = 0.0;
+	double xlow, xupp;
+	double step;
+
+	// MP shift correction
+	mpc = mu - mpshift;// * eta;
+
+	// Range of convolution integral
+	xlow = x - sc * sigma;
+	xupp = x + sc * sigma;
+
+	step = (xupp - xlow) / (double) np;
+
+	// Discrete linear convolution of Landau and Gaussian
+	for (unsigned int i = 1; i <= np / 2; ++i) {
+		xx = xlow + double (i - 0.5) * step;
+		fland = landauPDF(xx, mpc, eta) / eta;
+		sum += fland * gaussPDF(x, xx, sigma);
+
+		xx = xupp - double (i - 0.5) * step;
+		fland = landauPDF(xx, mpc, eta) / eta;
+		sum += fland * gaussPDF(x, xx, sigma);
+	}
+
+	const double norm = 0.398902310115109;  // normalization of the integral from -inf..intf
+
+	return (step * sum);
+}
+
+double* getLandauPDFData(double*& data, const unsigned int& size, const double& mu, const double& eta)
+{
 	double* result = new double[size];
-	for (unsigned int i = 0; i < size; ++i){
-		result[i] = landau_pdf(data[i], eta, mu);
+	for (unsigned int i = 0; i < size; ++i) {
+		result[i] = landauPDF(data[i], mu, eta);
+	}
+	return result;
+}
+
+double* getLangauPDFData(double*& data, const unsigned int& size, const double& mu, const double& eta, const double& sigma)
+{
+	double* result = new double[size];
+	for (unsigned int i = 0; i < size; ++i) {
+		result[i] = landauGaussPDF(data[i], mu, eta, sigma);
 	}
 	return result;
 }
