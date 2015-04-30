@@ -16,6 +16,7 @@ from pyLandau import landau
 x = np.arange(0, 100, 0.01)
 
 y_landau = landau.landau(x)
+
 y_langau = landau.langau(x)
 
 
