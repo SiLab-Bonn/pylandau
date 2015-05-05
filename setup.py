@@ -3,6 +3,7 @@ from setuptools import setup
 from setuptools import find_packages
 from distutils.extension import Extension
 from Cython.Build import cythonize
+from distutils.command.build_ext import build_ext
 import numpy as np
 
 extensions = [
@@ -25,18 +26,11 @@ setup(
     author_email=author_email,
     maintainer_email=author_email,
     install_requires=['cython', 'numpy'],
-    packages=find_packages(),  # exclude=['*.tests', '*.test']),
-    include_package_data=True,  # accept all data files and directories matched by MANIFEST.in or found in source control
+    packages=find_packages(),
+    include_package_data=True,
     package_data={'': ['*.txt', 'VERSION'], 'docs': ['*'], 'examples': ['*']},
     ext_modules=cythonize(extensions),
     include_dirs=[np.get_include()],
+    cmdclass={'build_ext': build_ext},
     platforms='any'
 )
-
-try:
-    from pyLandau import landau
-    a = np.arange(0, 100, 0.01)
-    np.sum(landau.landau_pdf(a, 1, 10) * (a[2] - a[1]))
-    print "STATUS: SUCCESS!"
-except Exception, e:
-    print "STATUS: FAILED (%s)" % str(e)
