@@ -28,7 +28,7 @@ notifications:
   #- conda update --yes conda
 
 install:
-  - pip install -r requirements.txt -v
+  - travis_wait pip install -r requirements.txt
   - python setup.py install
 
 # Run test
