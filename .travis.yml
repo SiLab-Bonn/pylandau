@@ -7,6 +7,7 @@ python:
   - 3.4
 
 sudo: false
+cache: pip
 
 addons:
   apt:
@@ -27,7 +28,7 @@ notifications:
   #- conda update --yes conda
 
 install:
-  - pip install -r requirements.txt
+  - pip install -r requirements.txt -v
   - python setup.py install
 
 # Run test
