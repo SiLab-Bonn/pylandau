@@ -11,6 +11,7 @@ sudo: false
 cache:
   directories:
     - $HOME/.pip-cache/
+    - $HOME/.pip-build/
 
 addons:
   apt:
@@ -31,7 +32,7 @@ notifications:
   #- conda update --yes conda
 
 install:
-  - travis_wait pip install -r requirements.txt --download-cache $HOME/.pip-cache
+  - travis_wait pip install -r requirements.txt --download-cache $HOME/.pip-cache --build $HOME/.pip-build --no-clean
   - python setup.py install
 
 # Run test
