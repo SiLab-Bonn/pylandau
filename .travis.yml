@@ -7,7 +7,10 @@ python:
   - 3.4
 
 sudo: false
-cache: pip
+
+cache:
+  directories:
+    - $HOME/.pip-cache/
 
 addons:
   apt:
@@ -28,7 +31,7 @@ notifications:
   #- conda update --yes conda
 
 install:
-  - travis_wait pip install -r requirements.txt
+  - travis_wait pip install -r requirements.txt --download-cache $HOME/.pip-cache
   - python setup.py install
 
 # Run test
