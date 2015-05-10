@@ -45,10 +45,10 @@ install:
 build: off
 
 test_script:
-  - cmd: %WITH_COMPILER% %PYTHON%/python setup.py test
+  - "%WITH_COMPILER% %PYTHON%/python setup.py test"
 
 after_test:
-  - cmd: %WITH_COMPILER% %PYTHON%/python setup.py bdist_wheel
+  - "%WITH_COMPILER% %PYTHON%/python setup.py bdist_wheel"
 
 artifacts:
   - path: dist\*
