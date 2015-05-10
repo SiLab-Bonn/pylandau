@@ -5,7 +5,6 @@ from pyLandau import landau
 
 try:
     from scipy.integrate import quad as scipy_integrate
-    raise ImportError
     no_scipy = False
 except ImportError:
     no_scipy = True
