@@ -80,8 +80,8 @@ function main () {
     InstallPython $env:PYTHON_VERSION $env:PYTHON_ARCH $env:PYTHON
     InstallPip $env:PYTHON
     InstallPackage $env:PYTHON wheel
-    InstallPackage $env:PYTHON numpy
-    InstallPackage $env:PYTHON scipy
+    # InstallPackage $env:PYTHON numpy
+    # InstallPackage $env:PYTHON scipy
     InstallPackage $env:PYTHON cython
     
 }
