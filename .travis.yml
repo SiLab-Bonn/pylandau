@@ -23,7 +23,7 @@ notifications:
 
 install:
   - pip install --upgrade pip
-  - travis_wait pip install -r requirements.txt --cache-dir $HOME/.pip-cache
+  - pip install -r requirements.txt --cache-dir $HOME/.pip-cache
   - python setup.py install
 
 # Run test
