@@ -7,8 +7,8 @@ python:
 sudo: false
 
 cache:
-directories:
-- $HOME/.pip-cache/
+  directories:
+    - $HOME/.pip-cache/
 
 addons:
   apt:
