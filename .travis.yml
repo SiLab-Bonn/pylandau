@@ -6,6 +6,10 @@ python:
 
 sudo: false
 
+cache:
+directories:
+- $HOME/.pip-cache/
+
 addons:
   apt:
     packages:
@@ -18,7 +22,8 @@ notifications:
     - pohl@physik.uni-bonn.de
 
 install:
-  - travis_wait pip install -r requirements.txt
+  - pip install --upgrade pip
+  - travis_wait pip install -r requirements.txt --cache-dir $HOME/.pip-cache
   - python setup.py install
 
 # Run test
