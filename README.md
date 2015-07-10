@@ -4,7 +4,9 @@ and the implementation is from [CERN ROOT Mathlibs] (https://project-mathlibs.we
 
 # Installation
 
-pip install git+git://github.com/SiLab-Bonn/pyLandau@master
+Download code. Within the directory run:
+
+python setup.py install
 
 # Usage
 
