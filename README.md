@@ -4,9 +4,9 @@ and the implementation is from [CERN ROOT Mathlibs] (https://project-mathlibs.we
 
 # Installation
 
-Download code. Within the directory run:
+Download the code and put it to a directory of your choise. Within the directory run:
 
-python setup.py install
+python setup.py develop
 
 # Usage
 
