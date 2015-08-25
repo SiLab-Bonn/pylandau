@@ -25,7 +25,7 @@ notifications:
 install:
   - pip install --upgrade pip
   - pip install -r requirements.txt --cache-dir $HOME/.pip-cache
-  - python setup.py install
+  - python setup.py develop
 
 # Run test
 script: nosetests
