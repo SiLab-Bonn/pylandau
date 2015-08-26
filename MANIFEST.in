@@ -1,0 +1,5 @@
+include README.*
+recursive-include docs *
+recursive-include examples *
+recursive-include tests *
+recursive-include pyLandau/cpp *

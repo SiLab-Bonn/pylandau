@@ -1,16 +1,29 @@
 #!/usr/bin/env python
 from setuptools import setup
+from setuptools import find_packages
 from distutils.extension import Extension
-from Cython.Build import cythonize
+from distutils.command.build_ext import build_ext
 import numpy as np
 
-extensions = [
-    Extension('pyLandau.landau', ['pyLandau/cpp/landau.pyx'])
-]
+# Check if cython exists, then use it, otherwise compile already cythonized cpp file
+have_cython = False
+try:
+    from Cython.Build import cythonize
+    have_cython = True
+except ImportError:
+    pass
 
-version = '1.0.0rc'
+if have_cython:
+    cpp_extension = cythonize(Extension('pyLandau.landau', ['pyLandau/cpp/landau.pyx']))
+else:
+    cpp_extension = [Extension('pyLandau.landau', ['pyLandau/cpp/landau.cpp'])]
+
+
+version = '1.0.0rc1'
 author = 'David-Leon Pohl'
 author_email = 'pohl@physik.uni-bonn.de'
+
+install_requires = ['cython', 'numpy']
 
 setup(
     name='pyLandau',
@@ -18,17 +31,18 @@ setup(
     description='A Landau PDF definition to be used in Python.',
     url='https://github.com/SiLab-Bonn/pyLandau',
     license='GNU LESSER GENERAL PUBLIC LICENSE Version 2.1',
-    long_description='',
+    long_description='The Landau propability density function is defined in C++ and made available to python via cython. Also a fast Gaus+Landau convolution is available. The interface accepts numpy arrays.',
     author=author,
     maintainer=author,
     author_email=author_email,
     maintainer_email=author_email,
-    install_requires=['cython', 'numpy'],
-    include_package_data=True,
-    packages=["pyLandau"],
-    package_data={'': ['*.txt', 'VERSION'], 'docs': ['*'], 'examples': ['*']},
-    ext_modules=cythonize(extensions),
+    install_requires=install_requires,
+    packages=find_packages(),
+    include_package_data=True,  # accept all data files and directories matched by MANIFEST.in or found in source control
+    package_data={'': ['README.*', 'VERSION'], 'docs': ['*'], 'examples': ['*']},
+    ext_modules=cpp_extension,
     include_dirs=[np.get_include()],
     keywords=['Landau', 'Langau', 'PDF'],
+    cmdclass={'build_ext': build_ext},
     platforms='any'
 )
