@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-from setuptools import setup
-from setuptools import find_packages
-from distutils.extension import Extension
-from distutils.command.build_ext import build_ext
+# This setup relies on setuptools since distutils is insufficient and badly hacked code
+from setuptools import setup, find_packages, Extension
 import numpy as np
 
 # Check if cython exists, then use it, otherwise compile already cythonized cpp file
@@ -16,8 +14,9 @@ except ImportError:
 if have_cython:
     cpp_extension = cythonize(Extension('pyLandau.landau', ['pyLandau/cpp/landau.pyx']))
 else:
-    cpp_extension = [Extension('pyLandau.landau', ['pyLandau/cpp/landau.cpp'])]
-
+    cpp_extension = [Extension('pyLandau.landau',
+                               sources=['pyLandau/cpp/landau.cpp'],
+                               language="c++")]
 
 version = '1.0.0rc1'
 author = 'David-Leon Pohl'
@@ -43,6 +42,5 @@ setup(
     ext_modules=cpp_extension,
     include_dirs=[np.get_include()],
     keywords=['Landau', 'Langau', 'PDF'],
-    cmdclass={'build_ext': build_ext},
     platforms='any'
 )
