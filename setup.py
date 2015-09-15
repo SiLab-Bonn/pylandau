@@ -1,9 +1,8 @@
 #!/usr/bin/env python
-# This setup relies on setuptools since distutils is insufficient and badly hacked code
-from setuptools import setup, find_packages, Extension
+from setuptools import setup, find_packages, Extension  # This setup relies on setuptools since distutils is insufficient and badly hacked code
 import numpy as np
 
-# Check if cython exists, then use it, otherwise compile already cythonized cpp file
+# Check if cython exists, then use it. Otherwise compile already cythonized cpp file
 have_cython = False
 try:
     from Cython.Build import cythonize
@@ -18,7 +17,7 @@ else:
                                sources=['pyLandau/cpp/landau.cpp'],
                                language="c++")]
 
-version = '1.0.0rc1'
+version = '1.0.0'
 author = 'David-Leon Pohl'
 author_email = 'pohl@physik.uni-bonn.de'
 
