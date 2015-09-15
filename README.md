@@ -4,7 +4,11 @@ and the implementation is from [CERN ROOT Mathlibs] (https://project-mathlibs.we
 
 # Installation
 
-Download the code and put it to a directory of your choise. Within the directory run:
+The code is hosted at PyPI. For installation just type:
+
+pip install pylandau
+
+Otherwise if you want to change the code download it and put it into a directory of your choise. Within the directory run:
 
 python setup.py develop
 
