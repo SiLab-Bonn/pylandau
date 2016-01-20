@@ -17,7 +17,7 @@ else:
                                sources=['pyLandau/cpp/landau.cpp'],
                                language="c++")]
 
-version = '1.0.0'
+version = '1.1.0'
 author = 'David-Leon Pohl'
 author_email = 'pohl@physik.uni-bonn.de'
 
