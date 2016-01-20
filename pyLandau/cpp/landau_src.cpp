@@ -111,8 +111,12 @@ double landauGaussPDF(const double& x, const double& mu, const double& eta, cons
 	double mpshift = -0.22278298;     // Landau maximum location, no at xi for above definition!
 
 	// Control constants
-	const unsigned int np = 100;      // number of convolution steps
+	unsigned int np = 100;      // number of convolution steps
 	const unsigned int sc = 8;        // convolution extends to +-sc Gaussian sigmas
+
+	// Convolution steps have to be increased if sigma > eta * 10 to get stable solution that does not oscillate, adresses #1
+	if (sigma > 5 * eta)
+		np *= int(sigma / eta / 5.);
 
 	// Variables
 	double xx;
