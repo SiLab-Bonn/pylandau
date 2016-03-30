@@ -118,7 +118,7 @@ double landauGaussPDF(const double& x, const double& mu, const double& eta, cons
 	if (sigma > 5 * eta)
 		np *= int(sigma / eta / 5.);
 	if (np > 100000)  // Do not use too convolution steps to save time
-		np = 100000
+		np = 100000;
 
 	// Variables
 	double xx;
