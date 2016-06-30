@@ -11,20 +11,20 @@ except ImportError:
     pass
 
 if have_cython:
-    cpp_extension = cythonize(Extension('pyLandau.landau', ['pyLandau/cpp/landau.pyx']))
+    cpp_extension = cythonize(Extension('pylandau', ['pyLandau/cpp/pylandau.pyx']))
 else:
-    cpp_extension = [Extension('pyLandau.landau',
-                               sources=['pyLandau/cpp/landau.cpp'],
+    cpp_extension = [Extension('pylandau',
+                               sources=['pyLandau/cpp/pylandau.cpp'],
                                language="c++")]
 
-version = '1.1.0'
+version = '1.2.0'
 author = 'David-Leon Pohl'
 author_email = 'pohl@physik.uni-bonn.de'
 
 install_requires = ['cython', 'numpy']
 
 setup(
-    name='pyLandau',
+    name='pylandau',
     version=version,
     description='A Landau PDF definition to be used in Python.',
     url='https://github.com/SiLab-Bonn/pyLandau',

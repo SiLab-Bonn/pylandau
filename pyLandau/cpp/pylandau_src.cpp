@@ -108,7 +108,7 @@ double gaussPDF(const double& x, const double& mu, const double& sigma)
 double landauGaussPDF(const double& x, const double& mu, const double& eta, const double& sigma)
 {
 	// Numeric constants
-	double mpshift = -0.22278298;     // Landau maximum location, no at xi for above definition!
+	double mpshift = 0.; // -0.22278298;     // Landau maximum location shift in original code is wrong, since the shift does not depend on mu only
 
 	// Control constants
 	unsigned int np = 100;      // number of convolution steps

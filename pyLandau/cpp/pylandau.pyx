@@ -10,7 +10,7 @@ cnp.import_array()
 cdef extern from "numpy/arrayobject.h":
     void PyArray_ENABLEFLAGS(cnp.ndarray arr, int flags)
 
-cdef extern from "landau_src.cpp":
+cdef extern from "pylandau_src.cpp":
     double* getLandauPDFData(double*& data, const unsigned int& size, const double& mu, const double& eta) except +
     double* getLangauPDFData(double*& data, const unsigned int& size, const double& mu, const double& eta, const double& sigma) except +
     double landauPDF(const double& x, const double& xi, const double& x0) except +
@@ -38,16 +38,6 @@ def get_langau_pdf(value, mu=0, eta=1, sigma=1):
     return landauGaussPDF(<const double&> value, <const double&> mu, <const double&> eta, <const double&> sigma)
 
 
-def get_landau(value, mu=0, eta=1, A=1):
-    landau_pdf = get_landau_pdf(value - 0.22278298, mu, eta)  # correct value that MPV is mu
-    return landau_pdf / np.amax(landau_pdf) * A
-
-
-def get_langau(value, mu=0, eta=1, sigma=1, A=1):
-    langau_pdf = get_langau_pdf(value, mu, eta, sigma)  # shift correction done in function
-    return langau_pdf / np.amax(langau_pdf) * A
-
-
 def landau_pdf(cnp.ndarray[cnp.double_t, ndim=1] array, mu=0, eta=1):
     result = getLandauPDFData(< double*& > array.data, < const unsigned int&> array.shape[0], < const double&> mu, < const double&> eta)
     return data_to_numpy_array_double(result, array.shape[0])
@@ -60,7 +50,7 @@ def langau_pdf(cnp.ndarray[cnp.double_t, ndim=1] array, mu=0, eta=1, sigma=1):
 
 
 def landau(cnp.ndarray[cnp.double_t, ndim=1] array, mu=0, eta=1, A=1):
-    landau = landau_pdf(array - 0.22278298, mu, eta)  # mu is defined as the maximum (MPV), so correct function y-offset here
+    landau = landau_pdf(array, mu, eta)
     return (landau / np.amax(landau) * A)
 
 
