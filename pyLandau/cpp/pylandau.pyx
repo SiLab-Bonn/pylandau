@@ -38,6 +38,18 @@ def get_langau_pdf(value, mu=0, eta=1, sigma=1):
     return landauGaussPDF(<const double&> value, <const double&> mu, <const double&> eta, <const double&> sigma)
 
 
+def get_landau(value, mu=0, eta=1, A=1):
+    result = get_landau_pdf(value, mu, eta)
+    maximum = np.max(landau_pdf(np.arange(mu - 5 * eta, mu + 5 * eta, 0.1 * eta), mu, eta))
+    return result / maximum * A  # Numerical scaling maximum to A
+
+
+def get_langau(value, mu=0, eta=1, sigma=1, A=1):
+    result = get_langau_pdf(value, mu, eta, sigma)
+    maximum = np.max(langau_pdf(np.arange(mu - 5 * eta, mu + 5 * eta, 0.1 * eta), mu, eta, sigma))
+    return result / maximum * A  # Numerical scaling maximum to A
+
+
 def landau_pdf(cnp.ndarray[cnp.double_t, ndim=1] array, mu=0, eta=1):
     result = getLandauPDFData(< double*& > array.data, < const unsigned int&> array.shape[0], < const double&> mu, < const double&> eta)
     return data_to_numpy_array_double(result, array.shape[0])
@@ -51,9 +63,11 @@ def langau_pdf(cnp.ndarray[cnp.double_t, ndim=1] array, mu=0, eta=1, sigma=1):
 
 def landau(cnp.ndarray[cnp.double_t, ndim=1] array, mu=0, eta=1, A=1):
     landau = landau_pdf(array, mu, eta)
-    return (landau / np.amax(landau) * A)
+    maximum = np.max(landau_pdf(np.arange(mu - 5 * eta, mu + 5 * eta, 0.1 * eta), mu, eta))
+    return landau / maximum * A  # Numerical scaling maximum to A
 
 
 def langau(cnp.ndarray[cnp.double_t, ndim=1] array, mu=0, eta=1, sigma=1, A=1):
-    langau = langau_pdf(array, mu, eta, sigma)  # mu is defined as the maximum (MPV), so correct function y-offset here
-    return (langau / np.amax(langau) * A)
+    langau = langau_pdf(array, mu, eta, sigma)
+    maximum = np.max(langau_pdf(np.arange(mu - 5 * eta, mu + 5 * eta, 0.1 * eta), mu, eta, sigma))
+    return langau / maximum * A  # Numerical scaling maximum to A
