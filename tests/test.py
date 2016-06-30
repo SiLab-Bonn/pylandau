@@ -1,7 +1,7 @@
 ''' Script to check pyLandau.
 '''
 import unittest
-from pyLandau import landau
+import pylandau
 
 
 def approx_Equal(x, y, tolerance=0.001):  # check similarity of values within an allowed tolerance
@@ -43,11 +43,11 @@ class Test(unittest.TestCase):
 
     def test_check_pdf_integral(self):  # a pdf integral has to be 1
         mu, eta, sigma = 10, 1, 3
-        result, _ = integrate(landau.get_landau_pdf, 0, 10000, args=(mu, eta))
+        result, _ = integrate(pylandau.get_landau_pdf, 0, 10000, args=(mu, eta))
         self.assertTrue(approx_Equal(result, 1))
-        result, _ = integrate(landau.get_gauss_pdf, 0, 10000, args=(mu, sigma))
+        result, _ = integrate(pylandau.get_gauss_pdf, 0, 10000, args=(mu, sigma))
         self.assertTrue(approx_Equal(result, 1))
-        result, _ = integrate(landau.get_langau_pdf, -10000, 10000, args=(mu, eta, sigma))
+        result, _ = integrate(pylandau.get_langau_pdf, -10000, 10000, args=(mu, eta, sigma))
         self.assertTrue(approx_Equal(result, 1))
 
 
