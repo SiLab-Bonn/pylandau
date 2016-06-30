@@ -33,12 +33,11 @@ def fwhm(x, y, k=10):  # http://stackoverflow.com/questions/10582795/finding-the
         return roots[0], roots[1]
 
 x = np.arange(0, 100, 0.01)
-for A, eta, mu in ((1, 1, 10), (1, 2, 30), (0.5, 5, 50)):
-    y = pylandau.landau(x, mu, eta, A)
-    plt.plot(x, y, label='A=%d, eta=%d, mu=%d' % (A, eta, mu))
+for A, eta, mpv in ((1, 1, 10), (1, 2, 30), (0.5, 5, 50)):
+    y = pylandau.landau(x, mpv, eta, A)
+    plt.plot(x, y, label='A=%d, mpv=%d, eta=%d' % (A, mpv, eta))
     x_fwhm_1, x_fwhm_2 = fwhm(x, y)
     plt.plot([x_fwhm_1, x_fwhm_2], [np.max(y) / 2., np.max(y) / 2.], label='FWHM: %1.1f' % np.abs(x_fwhm_1 - x_fwhm_2))
-    x_mpv = x[np.argmax(y)]
-    plt.plot([x_mpv, x_mpv], [0., np.max(y)], label='MPV: %1.1f' % x_mpv)
+    plt.plot([mpv, mpv], [0., np.max(y)], label='MPV: %1.1f' % mpv)
 plt.legend(loc=0)
 plt.show()

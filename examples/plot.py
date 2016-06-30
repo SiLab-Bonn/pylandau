@@ -11,8 +11,7 @@ for A, eta, mu in ((1, 1, 10), (1, 2, 30), (0.5, 5, 50)):
     plt.plot(x, pylandau.landau(x, mu, eta, A), '-', label='A=%1.1f, eta=%1.1f, mu=%1.1f' % (A, eta, mu))
 
     # Use the function that calculates the y value given a x value, (e.g. needed for minimizers)
-    y = np.array([pylandau.get_landau_pdf(x_value, mu, eta) for x_value in x])
-    y = y / np.max(y) * A  # Scale maximum to amplitude A
+    y = np.array([pylandau.get_landau(x_value, mu, eta, A) for x_value in x])
     plt.plot(x, y, '--', label='A=%1.1f, eta=%1.1f, mu=%1.1f' % (A, eta, mu))
 plt.legend(loc=0)
 plt.show()
