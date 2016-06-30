@@ -54,7 +54,7 @@ def langau_pdf(cnp.ndarray[cnp.double_t, ndim=1] array, mu=0, eta=1, sigma=1):
 
 def get_landau(value, mpv=0, eta=1, A=1, precision=0.01):
     # Determine maximum and MPV shift
-    x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+    x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
     index_maximum = np.argmax(y_pre)
     maximum = y_pre[index_maximum]
@@ -66,8 +66,8 @@ def get_landau(value, mpv=0, eta=1, A=1, precision=0.01):
 
 def get_langau(value, mpv=0, eta=1, sigma=1, A=1, precision=0.01):
     # Determine maximum and MPV shift
-    x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
-    y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
+    x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
+    y_pre = langau_pdf(x, mpv, eta, sigma)  # Get Landau in original definition first to be able to correct for MPV / mu shift
     index_maximum = np.argmax(y_pre)
     maximum = y_pre[index_maximum]
     mpv_shift = mpv - x[index_maximum]
@@ -78,7 +78,7 @@ def get_langau(value, mpv=0, eta=1, sigma=1, A=1, precision=0.01):
 
 def landau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, A=1, precision=0.01):
     # Determine maximum and MPV shift
-    x = np.arange(mpv - 5 * eta, mpv + 5 * eta, 0.001 * eta)  # Has to cover maximum, precision defines x deviation around maximum
+    x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
     index_maximum = np.argmax(y_pre)
     maximum = y_pre[index_maximum]
@@ -90,11 +90,11 @@ def landau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, A=1, precision
 
 def langau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, sigma=1, A=1, precision=0.01):
     # Determine maximum and MPV shift
-    x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
-    y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
+    x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
+    y_pre = langau_pdf(x, mpv, eta, sigma)  # Get Landau in original definition first to be able to correct for MPV / mu shift
     index_maximum = np.argmax(y_pre)
     maximum = y_pre[index_maximum]
     mpv_shift = mpv - x[index_maximum]
 
-    y = langau_pdf(array, mpv+mpv_shift, eta, sigma)
+    y = langau_pdf(array, mpv + mpv_shift, eta, sigma)
     return y / maximum * A  # Numerical scaling maximum to A

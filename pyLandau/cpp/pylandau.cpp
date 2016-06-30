@@ -1282,12 +1282,11 @@ static PyObject *__pyx_pf_8pylandau_6landau_pdf(CYTHON_UNUSED PyObject *__pyx_se
 static PyObject *__pyx_pf_8pylandau_8langau_pdf(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_array, PyObject *__pyx_v_mu, PyObject *__pyx_v_eta, PyObject *__pyx_v_sigma); /* proto */
 static PyObject *__pyx_pf_8pylandau_10get_landau(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_value, PyObject *__pyx_v_mpv, PyObject *__pyx_v_eta, PyObject *__pyx_v_A, PyObject *__pyx_v_precision); /* proto */
 static PyObject *__pyx_pf_8pylandau_12get_langau(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_value, PyObject *__pyx_v_mpv, PyObject *__pyx_v_eta, PyObject *__pyx_v_sigma, PyObject *__pyx_v_A, PyObject *__pyx_v_precision); /* proto */
-static PyObject *__pyx_pf_8pylandau_14landau(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_array, PyObject *__pyx_v_mpv, PyObject *__pyx_v_eta, PyObject *__pyx_v_A, CYTHON_UNUSED PyObject *__pyx_v_precision); /* proto */
+static PyObject *__pyx_pf_8pylandau_14landau(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_array, PyObject *__pyx_v_mpv, PyObject *__pyx_v_eta, PyObject *__pyx_v_A, PyObject *__pyx_v_precision); /* proto */
 static PyObject *__pyx_pf_8pylandau_16langau(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_array, PyObject *__pyx_v_mpv, PyObject *__pyx_v_eta, PyObject *__pyx_v_sigma, PyObject *__pyx_v_A, PyObject *__pyx_v_precision); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_float_0_01;
-static PyObject *__pyx_float_0_001;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_5;
@@ -2208,7 +2207,7 @@ static PyObject *__pyx_pf_8pylandau_8langau_pdf(CYTHON_UNUSED PyObject *__pyx_se
  * 
  * def get_landau(value, mpv=0, eta=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
 
 /* Python wrapper */
@@ -2331,7 +2330,7 @@ static PyObject *__pyx_pf_8pylandau_10get_landau(CYTHON_UNUSED PyObject *__pyx_s
   /* "pylandau.pyx":57
  * def get_landau(value, mpv=0, eta=1, A=1, precision=0.01):
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum             # <<<<<<<<<<<<<<
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum             # <<<<<<<<<<<<<<
  *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
  *     index_maximum = np.argmax(y_pre)
  */
@@ -2350,7 +2349,7 @@ static PyObject *__pyx_pf_8pylandau_10get_landau(CYTHON_UNUSED PyObject *__pyx_s
   __pyx_t_5 = PyNumber_Add(__pyx_v_mpv, __pyx_t_2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyNumber_Multiply(__pyx_v_precision, __pyx_v_eta); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyNumber_Multiply(__pyx_v_mpv, __pyx_v_precision); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_6 = NULL;
   __pyx_t_7 = 0;
@@ -2387,7 +2386,7 @@ static PyObject *__pyx_pf_8pylandau_10get_landau(CYTHON_UNUSED PyObject *__pyx_s
 
   /* "pylandau.pyx":58
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift             # <<<<<<<<<<<<<<
  *     index_maximum = np.argmax(y_pre)
  *     maximum = y_pre[index_maximum]
@@ -2428,7 +2427,7 @@ static PyObject *__pyx_pf_8pylandau_10get_landau(CYTHON_UNUSED PyObject *__pyx_s
   __pyx_t_1 = 0;
 
   /* "pylandau.pyx":59
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
  *     index_maximum = np.argmax(y_pre)             # <<<<<<<<<<<<<<
  *     maximum = y_pre[index_maximum]
@@ -2560,7 +2559,7 @@ static PyObject *__pyx_pf_8pylandau_10get_landau(CYTHON_UNUSED PyObject *__pyx_s
  * 
  * def get_landau(value, mpv=0, eta=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
 
   /* function exit code */
@@ -2591,7 +2590,7 @@ static PyObject *__pyx_pf_8pylandau_10get_landau(CYTHON_UNUSED PyObject *__pyx_s
  * 
  * def get_langau(value, mpv=0, eta=1, sigma=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
 
 /* Python wrapper */
@@ -2724,8 +2723,8 @@ static PyObject *__pyx_pf_8pylandau_12get_langau(CYTHON_UNUSED PyObject *__pyx_s
   /* "pylandau.pyx":69
  * def get_langau(value, mpv=0, eta=1, sigma=1, A=1, precision=0.01):
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum             # <<<<<<<<<<<<<<
- *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum             # <<<<<<<<<<<<<<
+ *     y_pre = langau_pdf(x, mpv, eta, sigma)  # Get Landau in original definition first to be able to correct for MPV / mu shift
  *     index_maximum = np.argmax(y_pre)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -2743,7 +2742,7 @@ static PyObject *__pyx_pf_8pylandau_12get_langau(CYTHON_UNUSED PyObject *__pyx_s
   __pyx_t_5 = PyNumber_Add(__pyx_v_mpv, __pyx_t_2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyNumber_Multiply(__pyx_v_precision, __pyx_v_eta); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyNumber_Multiply(__pyx_v_mpv, __pyx_v_precision); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_6 = NULL;
   __pyx_t_7 = 0;
@@ -2780,12 +2779,12 @@ static PyObject *__pyx_pf_8pylandau_12get_langau(CYTHON_UNUSED PyObject *__pyx_s
 
   /* "pylandau.pyx":70
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
- *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift             # <<<<<<<<<<<<<<
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
+ *     y_pre = langau_pdf(x, mpv, eta, sigma)  # Get Landau in original definition first to be able to correct for MPV / mu shift             # <<<<<<<<<<<<<<
  *     index_maximum = np.argmax(y_pre)
  *     maximum = y_pre[index_maximum]
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_landau_pdf); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_langau_pdf); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_8 = NULL;
   __pyx_t_7 = 0;
@@ -2799,7 +2798,7 @@ static PyObject *__pyx_pf_8pylandau_12get_langau(CYTHON_UNUSED PyObject *__pyx_s
       __pyx_t_7 = 1;
     }
   }
-  __pyx_t_2 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyTuple_New(4+__pyx_t_7); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   if (__pyx_t_8) {
     __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -2813,6 +2812,9 @@ static PyObject *__pyx_pf_8pylandau_12get_langau(CYTHON_UNUSED PyObject *__pyx_s
   __Pyx_INCREF(__pyx_v_eta);
   __Pyx_GIVEREF(__pyx_v_eta);
   PyTuple_SET_ITEM(__pyx_t_2, 2+__pyx_t_7, __pyx_v_eta);
+  __Pyx_INCREF(__pyx_v_sigma);
+  __Pyx_GIVEREF(__pyx_v_sigma);
+  PyTuple_SET_ITEM(__pyx_t_2, 3+__pyx_t_7, __pyx_v_sigma);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2821,8 +2823,8 @@ static PyObject *__pyx_pf_8pylandau_12get_langau(CYTHON_UNUSED PyObject *__pyx_s
   __pyx_t_1 = 0;
 
   /* "pylandau.pyx":71
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
- *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
+ *     y_pre = langau_pdf(x, mpv, eta, sigma)  # Get Landau in original definition first to be able to correct for MPV / mu shift
  *     index_maximum = np.argmax(y_pre)             # <<<<<<<<<<<<<<
  *     maximum = y_pre[index_maximum]
  *     mpv_shift = mpv - x[index_maximum]
@@ -2861,7 +2863,7 @@ static PyObject *__pyx_pf_8pylandau_12get_langau(CYTHON_UNUSED PyObject *__pyx_s
   __pyx_t_1 = 0;
 
   /* "pylandau.pyx":72
- *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
+ *     y_pre = langau_pdf(x, mpv, eta, sigma)  # Get Landau in original definition first to be able to correct for MPV / mu shift
  *     index_maximum = np.argmax(y_pre)
  *     maximum = y_pre[index_maximum]             # <<<<<<<<<<<<<<
  *     mpv_shift = mpv - x[index_maximum]
@@ -2956,7 +2958,7 @@ static PyObject *__pyx_pf_8pylandau_12get_langau(CYTHON_UNUSED PyObject *__pyx_s
  * 
  * def get_langau(value, mpv=0, eta=1, sigma=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
 
   /* function exit code */
@@ -2987,7 +2989,7 @@ static PyObject *__pyx_pf_8pylandau_12get_langau(CYTHON_UNUSED PyObject *__pyx_s
  * 
  * def landau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, 0.001 * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
 
 /* Python wrapper */
@@ -2998,7 +3000,7 @@ static PyObject *__pyx_pw_8pylandau_15landau(PyObject *__pyx_self, PyObject *__p
   PyObject *__pyx_v_mpv = 0;
   PyObject *__pyx_v_eta = 0;
   PyObject *__pyx_v_A = 0;
-  CYTHON_UNUSED PyObject *__pyx_v_precision = 0;
+  PyObject *__pyx_v_precision = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3090,7 +3092,7 @@ static PyObject *__pyx_pw_8pylandau_15landau(PyObject *__pyx_self, PyObject *__p
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pylandau_14landau(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_array, PyObject *__pyx_v_mpv, PyObject *__pyx_v_eta, PyObject *__pyx_v_A, CYTHON_UNUSED PyObject *__pyx_v_precision) {
+static PyObject *__pyx_pf_8pylandau_14landau(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_array, PyObject *__pyx_v_mpv, PyObject *__pyx_v_eta, PyObject *__pyx_v_A, PyObject *__pyx_v_precision) {
   PyObject *__pyx_v_x = NULL;
   PyObject *__pyx_v_y_pre = NULL;
   PyObject *__pyx_v_index_maximum = NULL;
@@ -3126,7 +3128,7 @@ static PyObject *__pyx_pf_8pylandau_14landau(CYTHON_UNUSED PyObject *__pyx_self,
   /* "pylandau.pyx":81
  * def landau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, A=1, precision=0.01):
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, 0.001 * eta)  # Has to cover maximum, precision defines x deviation around maximum             # <<<<<<<<<<<<<<
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum             # <<<<<<<<<<<<<<
  *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
  *     index_maximum = np.argmax(y_pre)
  */
@@ -3145,7 +3147,7 @@ static PyObject *__pyx_pf_8pylandau_14landau(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_5 = PyNumber_Add(__pyx_v_mpv, __pyx_t_2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyNumber_Multiply(__pyx_float_0_001, __pyx_v_eta); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyNumber_Multiply(__pyx_v_mpv, __pyx_v_precision); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_6 = NULL;
   __pyx_t_7 = 0;
@@ -3182,7 +3184,7 @@ static PyObject *__pyx_pf_8pylandau_14landau(CYTHON_UNUSED PyObject *__pyx_self,
 
   /* "pylandau.pyx":82
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, 0.001 * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift             # <<<<<<<<<<<<<<
  *     index_maximum = np.argmax(y_pre)
  *     maximum = y_pre[index_maximum]
@@ -3223,7 +3225,7 @@ static PyObject *__pyx_pf_8pylandau_14landau(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_1 = 0;
 
   /* "pylandau.pyx":83
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, 0.001 * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
  *     index_maximum = np.argmax(y_pre)             # <<<<<<<<<<<<<<
  *     maximum = y_pre[index_maximum]
@@ -3355,7 +3357,7 @@ static PyObject *__pyx_pf_8pylandau_14landau(CYTHON_UNUSED PyObject *__pyx_self,
  * 
  * def landau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, 0.001 * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
 
   /* function exit code */
@@ -3393,7 +3395,7 @@ static PyObject *__pyx_pf_8pylandau_14landau(CYTHON_UNUSED PyObject *__pyx_self,
  * 
  * def langau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, sigma=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
 
 /* Python wrapper */
@@ -3542,8 +3544,8 @@ static PyObject *__pyx_pf_8pylandau_16langau(CYTHON_UNUSED PyObject *__pyx_self,
   /* "pylandau.pyx":93
  * def langau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, sigma=1, A=1, precision=0.01):
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum             # <<<<<<<<<<<<<<
- *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum             # <<<<<<<<<<<<<<
+ *     y_pre = langau_pdf(x, mpv, eta, sigma)  # Get Landau in original definition first to be able to correct for MPV / mu shift
  *     index_maximum = np.argmax(y_pre)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -3561,7 +3563,7 @@ static PyObject *__pyx_pf_8pylandau_16langau(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_5 = PyNumber_Add(__pyx_v_mpv, __pyx_t_2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyNumber_Multiply(__pyx_v_precision, __pyx_v_eta); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyNumber_Multiply(__pyx_v_mpv, __pyx_v_precision); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_6 = NULL;
   __pyx_t_7 = 0;
@@ -3598,12 +3600,12 @@ static PyObject *__pyx_pf_8pylandau_16langau(CYTHON_UNUSED PyObject *__pyx_self,
 
   /* "pylandau.pyx":94
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
- *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift             # <<<<<<<<<<<<<<
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
+ *     y_pre = langau_pdf(x, mpv, eta, sigma)  # Get Landau in original definition first to be able to correct for MPV / mu shift             # <<<<<<<<<<<<<<
  *     index_maximum = np.argmax(y_pre)
  *     maximum = y_pre[index_maximum]
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_landau_pdf); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_langau_pdf); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_8 = NULL;
   __pyx_t_7 = 0;
@@ -3617,7 +3619,7 @@ static PyObject *__pyx_pf_8pylandau_16langau(CYTHON_UNUSED PyObject *__pyx_self,
       __pyx_t_7 = 1;
     }
   }
-  __pyx_t_2 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyTuple_New(4+__pyx_t_7); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   if (__pyx_t_8) {
     __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -3631,6 +3633,9 @@ static PyObject *__pyx_pf_8pylandau_16langau(CYTHON_UNUSED PyObject *__pyx_self,
   __Pyx_INCREF(__pyx_v_eta);
   __Pyx_GIVEREF(__pyx_v_eta);
   PyTuple_SET_ITEM(__pyx_t_2, 2+__pyx_t_7, __pyx_v_eta);
+  __Pyx_INCREF(__pyx_v_sigma);
+  __Pyx_GIVEREF(__pyx_v_sigma);
+  PyTuple_SET_ITEM(__pyx_t_2, 3+__pyx_t_7, __pyx_v_sigma);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3639,8 +3644,8 @@ static PyObject *__pyx_pf_8pylandau_16langau(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_1 = 0;
 
   /* "pylandau.pyx":95
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
- *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
+ *     y_pre = langau_pdf(x, mpv, eta, sigma)  # Get Landau in original definition first to be able to correct for MPV / mu shift
  *     index_maximum = np.argmax(y_pre)             # <<<<<<<<<<<<<<
  *     maximum = y_pre[index_maximum]
  *     mpv_shift = mpv - x[index_maximum]
@@ -3679,7 +3684,7 @@ static PyObject *__pyx_pf_8pylandau_16langau(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_1 = 0;
 
   /* "pylandau.pyx":96
- *     y_pre = landau_pdf(x, mpv, eta)  # Get Landau in original definition first to be able to correct for MPV / mu shift
+ *     y_pre = langau_pdf(x, mpv, eta, sigma)  # Get Landau in original definition first to be able to correct for MPV / mu shift
  *     index_maximum = np.argmax(y_pre)
  *     maximum = y_pre[index_maximum]             # <<<<<<<<<<<<<<
  *     mpv_shift = mpv - x[index_maximum]
@@ -3695,7 +3700,7 @@ static PyObject *__pyx_pf_8pylandau_16langau(CYTHON_UNUSED PyObject *__pyx_self,
  *     maximum = y_pre[index_maximum]
  *     mpv_shift = mpv - x[index_maximum]             # <<<<<<<<<<<<<<
  * 
- *     y = langau_pdf(array, mpv+mpv_shift, eta, sigma)
+ *     y = langau_pdf(array, mpv + mpv_shift, eta, sigma)
  */
   __pyx_t_1 = PyObject_GetItem(__pyx_v_x, __pyx_v_index_maximum); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_1);
@@ -3708,7 +3713,7 @@ static PyObject *__pyx_pf_8pylandau_16langau(CYTHON_UNUSED PyObject *__pyx_self,
   /* "pylandau.pyx":99
  *     mpv_shift = mpv - x[index_maximum]
  * 
- *     y = langau_pdf(array, mpv+mpv_shift, eta, sigma)             # <<<<<<<<<<<<<<
+ *     y = langau_pdf(array, mpv + mpv_shift, eta, sigma)             # <<<<<<<<<<<<<<
  *     return y / maximum * A  # Numerical scaling maximum to A
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_langau_pdf); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -3753,7 +3758,7 @@ static PyObject *__pyx_pf_8pylandau_16langau(CYTHON_UNUSED PyObject *__pyx_self,
 
   /* "pylandau.pyx":100
  * 
- *     y = langau_pdf(array, mpv+mpv_shift, eta, sigma)
+ *     y = langau_pdf(array, mpv + mpv_shift, eta, sigma)
  *     return y / maximum * A  # Numerical scaling maximum to A             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
@@ -3771,7 +3776,7 @@ static PyObject *__pyx_pf_8pylandau_16langau(CYTHON_UNUSED PyObject *__pyx_self,
  * 
  * def langau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, sigma=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
 
   /* function exit code */
@@ -6158,7 +6163,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * def get_landau(value, mpv=0, eta=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
   __pyx_tuple__17 = PyTuple_Pack(11, __pyx_n_s_value, __pyx_n_s_mpv, __pyx_n_s_eta, __pyx_n_s_A, __pyx_n_s_precision, __pyx_n_s_x, __pyx_n_s_y_pre, __pyx_n_s_index_maximum, __pyx_n_s_maximum, __pyx_n_s_mpv_shift, __pyx_n_s_y); if (unlikely(!__pyx_tuple__17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__17);
@@ -6170,7 +6175,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * def get_langau(value, mpv=0, eta=1, sigma=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
   __pyx_tuple__19 = PyTuple_Pack(12, __pyx_n_s_value, __pyx_n_s_mpv, __pyx_n_s_eta, __pyx_n_s_sigma, __pyx_n_s_A, __pyx_n_s_precision, __pyx_n_s_x, __pyx_n_s_y_pre, __pyx_n_s_index_maximum, __pyx_n_s_maximum, __pyx_n_s_mpv_shift, __pyx_n_s_y); if (unlikely(!__pyx_tuple__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__19);
@@ -6182,7 +6187,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * def landau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, 0.001 * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
   __pyx_tuple__21 = PyTuple_Pack(11, __pyx_n_s_array, __pyx_n_s_mpv, __pyx_n_s_eta, __pyx_n_s_A, __pyx_n_s_precision, __pyx_n_s_x, __pyx_n_s_y_pre, __pyx_n_s_index_maximum, __pyx_n_s_maximum, __pyx_n_s_mpv_shift, __pyx_n_s_y); if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__21);
@@ -6194,7 +6199,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * def langau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, sigma=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
   __pyx_tuple__23 = PyTuple_Pack(12, __pyx_n_s_array, __pyx_n_s_mpv, __pyx_n_s_eta, __pyx_n_s_sigma, __pyx_n_s_A, __pyx_n_s_precision, __pyx_n_s_x, __pyx_n_s_y_pre, __pyx_n_s_index_maximum, __pyx_n_s_maximum, __pyx_n_s_mpv_shift, __pyx_n_s_y); if (unlikely(!__pyx_tuple__23)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__23);
@@ -6210,7 +6215,6 @@ static int __Pyx_InitCachedConstants(void) {
 static int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __pyx_float_0_01 = PyFloat_FromDouble(0.01); if (unlikely(!__pyx_float_0_01)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_float_0_001 = PyFloat_FromDouble(0.001); if (unlikely(!__pyx_float_0_001)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_5 = PyInt_FromLong(5); if (unlikely(!__pyx_int_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -6420,7 +6424,7 @@ PyMODINIT_FUNC PyInit_pylandau(void)
  * 
  * def get_landau(value, mpv=0, eta=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8pylandau_11get_landau, NULL, __pyx_n_s_pylandau); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -6432,7 +6436,7 @@ PyMODINIT_FUNC PyInit_pylandau(void)
  * 
  * def get_langau(value, mpv=0, eta=1, sigma=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8pylandau_13get_langau, NULL, __pyx_n_s_pylandau); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -6444,7 +6448,7 @@ PyMODINIT_FUNC PyInit_pylandau(void)
  * 
  * def landau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, 0.001 * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8pylandau_15landau, NULL, __pyx_n_s_pylandau); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -6456,7 +6460,7 @@ PyMODINIT_FUNC PyInit_pylandau(void)
  * 
  * def langau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, sigma=1, A=1, precision=0.01):             # <<<<<<<<<<<<<<
  *     # Determine maximum and MPV shift
- *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, precision * eta)  # Has to cover maximum, precision defines x deviation around maximum
+ *     x = np.arange(mpv - 5 * eta, mpv + 5 * eta, mpv * precision)  # Has to cover maximum, precision defines x deviation around maximum
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8pylandau_17langau, NULL, __pyx_n_s_pylandau); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
