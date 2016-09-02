@@ -114,10 +114,10 @@ double landauGaussPDF(const double& x, const double& mu, const double& eta, cons
 	unsigned int np = 100;      // number of convolution steps
 	const unsigned int sc = 8;        // convolution extends to +-sc Gaussian sigmas
 
-	// Convolution steps have to be increased if sigma > eta * 10 to get stable solution that does not oscillate, addresses #1
+	// Convolution steps have to be increased if sigma > eta * 5 to get stable solution that does not oscillate, addresses #1
 	if (sigma > 5 * eta)
 		np *= int(sigma / eta / 5.);
-	if (np > 100000)  // Do not use too convolution steps to save time
+	if (np > 100000)  // Do not use too many convolution steps to save time
 		np = 100000;
 
 	// Variables
