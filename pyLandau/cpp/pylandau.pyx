@@ -4,7 +4,6 @@
 # cython: embedsignature =True
 
 import numpy as np
-from bokeh.core.properties import This
 cimport numpy as cnp
 from libcpp.vector cimport vector
 cnp.import_array()
@@ -15,7 +14,7 @@ precision = 0.01
 
 cdef extern from "numpy/arrayobject.h":
     void PyArray_ENABLEFLAGS(cnp.ndarray arr, int flags)
-
+    
 cdef extern from "pylandau_src.cpp":
     double * getLandauPDFData(double * & data, const unsigned int & size, const double & mu, const double & eta) except +
     double * getLangauPDFData(double * & data, const unsigned int & size, const double & mu, const double & eta, const double & sigma) except +
