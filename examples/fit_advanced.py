@@ -2,9 +2,10 @@
 For this iminuit is used plus an additional step with minos to get
 asymmetric correct errors.
 
-Thus iminuit has to be installed.
+Thus iminuit has to be installed (pip install iminuit).
 
-http://seal.web.cern.ch/seal/snapshot/work-packages/mathlibs/minuit/
+Further info on minuit and the original implementation:
+http://seal.web.cern.ch/seal/documents/minuit/mnusersguide.pdf
 '''
 
 import numpy as np
