@@ -50,7 +50,6 @@ def fit_landau_migrad(x, y, p0, limit_mpv, limit_eta, limit_sigma, limit_A):
                           eta=m.values['eta'],
                           sigma=m.values['sigma'],
                           A=m.values['A']))  # Assume error from measured data
-    yerr = np.sqrt(y)  # Assume error from measured data
     yerr[y < 1] = 1
 
     m = iminuit.Minuit(minimizeMe,
