@@ -13,8 +13,8 @@
 //  Based on a Fortran code by R.Fruehwirth (fruhwirth@hephy.oeaw.ac.at)
 //  Adapted for C++/ROOT by H.Pernegger (Heinz.Pernegger@cern.ch) and
 //  Markus Friedl (Markus.Friedl@cern.ch)
-
-// Adaption for Python by David-Leon Pohl, pohl@physik.uni-bonn.de
+//
+//  Adaption for Python by David-Leon Pohl, pohl@physik.uni-bonn.de
 
 #pragma once
 #include <cmath>
