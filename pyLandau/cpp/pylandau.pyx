@@ -91,6 +91,7 @@ def langau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, sigma=1, A=1, 
 
     If scale_langau is true the Langau function maximum is at mpv with amplitude A.
     Otherwise the Landau function maximum is at mpv with amplitude A, thus not the resulting Langau. '''
+
     mpv, eta, sigma, A = _check_parameter(mpv=mpv, eta=eta, sigma=sigma, A=A)
 
     if scale_langau:
@@ -109,8 +110,8 @@ def _check_parameter(mpv, eta, sigma, A=1.):
         sigma *= -1
     if sigma > 100 * eta:
         print 'WARNING: sigma > 100 * eta can lead to oszillations. Check result.'
-    if not A:
-        RuntimeError('A has to be > 0')
+    if A <= 0.:
+        raise RuntimeError('A has to be > 0')
 
     return np.float(mpv), np.float(eta), np.float(sigma), np.float(A)
 

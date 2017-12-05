@@ -26,6 +26,7 @@ notifications:
 install:
   - pip install --upgrade pip
   - pip install -r requirements.txt --cache-dir $HOME/.pip-cache
+  - pip install -r requirements_tests.txt --cache-dir $HOME/.pip-cache
   - python setup.py develop
 
 # Run test
