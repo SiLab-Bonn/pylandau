@@ -21,8 +21,6 @@ class Test(unittest.TestCase):
                      allow_infinity=False))
     def test_landau_mpv(self, mpv):
         ''' Check Landau MPV position '''
-        # https://github.com/SiLab-Bonn/pyLandau/issues/11
-        assume(abs(mpv) > 1e-3)
         x = np.linspace(mpv - 10, mpv + 10, 1000)
         y = pylandau.landau(x, mpv=mpv, eta=1., A=1.)
         delta = x[1] - x[0]
@@ -34,8 +32,6 @@ class Test(unittest.TestCase):
                      allow_infinity=False))
     def test_langau_mpv(self, mpv):
         ''' Check Langau MPV position '''
-        # https://github.com/SiLab-Bonn/pyLandau/issues/11
-        assume(abs(mpv) > 1e-3)
         x = np.linspace(mpv - 10, mpv + 10, 1000)
         y = pylandau.langau(x, mpv=mpv, eta=1., sigma=1., A=1.)
         delta = x[1] - x[0]
