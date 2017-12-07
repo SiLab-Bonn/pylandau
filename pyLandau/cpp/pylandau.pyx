@@ -103,6 +103,9 @@ def langau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, sigma=1, A=1, 
 
     mpv, eta, sigma, A = _check_parameter(mpv=mpv, eta=eta, sigma=sigma, A=A)
 
+    if sigma == 0:
+        return landau(array, mpv=mpv, eta=eta, A=A)
+
     if scale_langau:
         mpv_scaled, _, _, A_scaled = _scale_to_mpv(mpv, eta, sigma, A=A)
     else:

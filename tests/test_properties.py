@@ -54,6 +54,31 @@ class Test(unittest.TestCase):
                    xtol=0.000001, ftol=0.000001)[0][0]
         self.assertAlmostEqual(mpv, mu - 0.22278, delta=1e9)
 
+    @given(st.tuples(
+        # mpv
+        st.floats(constrains.LANDAU_MIN_MPV,
+                  constrains.LANDAU_MAX_MPV,
+                  allow_nan=False,
+                  allow_infinity=False),
+        # eta
+        st.floats(constrains.LANDAU_MIN_ETA,
+                  constrains.LANDAU_MAX_ETA,
+                  allow_nan=False,
+                  allow_infinity=False),
+        # A
+        st.floats(constrains.LANDAU_MIN_A,
+                  constrains.LANDAU_MAX_A,
+                  allow_nan=False,
+                  allow_infinity=False),)
+           )
+    def test_landau_fallback(self, pars):
+        ''' Check if langau is landau for sigma = 0 '''
+        (mpv, eta, A) = pars
+        x = np.linspace(mpv - 5 * eta, mpv + 5 * eta, 1000)
+        y_1 = pylandau.landau(x, mpv=mpv, eta=eta, A=A)
+        y_2 = pylandau.langau(x, mpv=mpv, eta=eta, sigma=0., A=A)
+        self.assertTrue(np.all(y_1 == y_2))
+
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(Test)
     unittest.TextTestRunner(verbosity=2).run(suite)
