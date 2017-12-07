@@ -132,10 +132,20 @@ def _scale_to_mpv(mu, eta, sigma=0., A=None):
     scaled to A. '''
 
     if sigma > 0:
-        res = fmin(lambda x: -langau_pdf(x, mu, eta, sigma), x0=mu,
+        # https://github.com/SiLab-Bonn/pyLandau/issues/11
+        if abs(mu) > 1.:
+            x0 = mu
+        else:
+            x0 = 1. * np.sign(mu)
+        res = fmin(lambda x: -langau_pdf(x, mu, eta, sigma), x0=x0,
                    full_output=True, disp=False, xtol=0.000001, ftol=0.000001)
     else:
-        res = fmin(lambda x: -landau_pdf(x, mu, eta), x0=mu,
+        # https://github.com/SiLab-Bonn/pyLandau/issues/11
+        if abs(mu) > 1.:
+            x0 = mu
+        else:
+            x0 = 1. * np.sign(mu)
+        res = fmin(lambda x: -landau_pdf(x, mu, eta), x0=x0,
                    full_output=True, disp=False, xtol=0.000001, ftol=0.000001)
 
     if res[4] != 0:
