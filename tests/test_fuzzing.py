@@ -2,12 +2,9 @@
 '''
 import unittest
 
-from hypothesis import given, seed, assume
-import hypothesis.extra.numpy as nps
+from hypothesis import given, assume
 import hypothesis.strategies as st
-from hypothesis.extra.numpy import unsigned_integer_dtypes
 import numpy as np
-from scipy.integrate import quad as integrate
 
 import pylandau
 from tests import constrains
@@ -59,57 +56,44 @@ class Test(unittest.TestCase):
         y = pylandau.langau(x, mpv=mpv, eta=1., sigma=1., A=A)
         self.assertAlmostEqual(y.max(), A, delta=1e-4 * A)
 
-    @given(st.tuples(
-        # mpv
-        st.floats(constrains.LANDAU_MIN_MPV,
-                  constrains.LANDAU_MAX_MPV,
-                  allow_nan=False,
-                  allow_infinity=False),
-        # eta
-        st.floats(constrains.LANDAU_MIN_ETA,
-                  constrains.LANDAU_MAX_ETA,
-                  allow_nan=False,
-                  allow_infinity=False),
-        # A
-        st.floats(constrains.LANDAU_MIN_A,
-                  constrains.LANDAU_MAX_A,
-                  allow_nan=False,
-                  allow_infinity=False),)
-           )
-    def test_landau_stability(self, pars):
-        ''' Check Landau outputs for same intput parameters '''
-        (mpv, eta, A) = pars
+    @given(st.floats(constrains.LANDAU_MIN_MPV,
+                     constrains.LANDAU_MAX_MPV,
+                     allow_nan=False,
+                     allow_infinity=False),
+           st.floats(constrains.LANDAU_MIN_ETA,
+                     constrains.LANDAU_MAX_ETA,
+                     allow_nan=False,
+                     allow_infinity=False),
+           st.floats(constrains.LANDAU_MIN_A,
+                     constrains.LANDAU_MAX_A,
+                     allow_nan=False,
+                     allow_infinity=False))
+    def test_landau_stability(self, mpv, eta, A):
+        ''' Check Landau outputs for same input parameters '''
         x = np.linspace(mpv - 5 * eta, mpv + 5 * eta, 1000)
         y_1 = pylandau.landau(x, mpv=mpv, eta=eta, A=A)
         y_2 = pylandau.landau(x, mpv=mpv, eta=eta, A=A)
         self.assertTrue(np.all(y_1 == y_2))
 
-    @given(st.tuples(
-        # mpv
-        st.floats(constrains.LANGAU_MIN_MPV,
-                  constrains.LANGAU_MAX_MPV,
-                  allow_nan=False,
-                  allow_infinity=False),
-        # eta
-        st.floats(constrains.LANGAU_MIN_ETA,
-                  constrains.LANGAU_MAX_ETA,
-                  allow_nan=False,
-                  allow_infinity=False),
-        # sigma
-        st.floats(constrains.LANGAU_MIN_SIGMA,
-                  constrains.LANGAU_MAX_SIGMA,
-                  allow_nan=False,
-                  allow_infinity=False),
-        # A
-        st.floats(constrains.LANGAU_MIN_A,
-                  constrains.LANGAU_MAX_A,
-                  allow_nan=False,
-                  allow_infinity=False),)
+    @given(st.floats(constrains.LANGAU_MIN_MPV,
+                     constrains.LANGAU_MAX_MPV,
+                     allow_nan=False,
+                     allow_infinity=False),
+           st.floats(constrains.LANGAU_MIN_ETA,
+                     constrains.LANGAU_MAX_ETA,
+                     allow_nan=False,
+                     allow_infinity=False),
+           st.floats(constrains.LANGAU_MIN_SIGMA,
+                     constrains.LANGAU_MAX_SIGMA,
+                     allow_nan=False,
+                     allow_infinity=False),
+           st.floats(constrains.LANGAU_MIN_A,
+                     constrains.LANGAU_MAX_A,
+                     allow_nan=False,
+                     allow_infinity=False)
            )
-    def test_langau_stability(self, pars):
-        ''' Check Langau outputs for same intput parameters '''
-
-        (mpv, eta, sigma, A) = pars
+    def test_langau_stability(self, mpv, eta, sigma, A):
+        ''' Check Langau outputs for same input parameters '''
         # Correct input to avoid oscillations
         if sigma > 100 * eta:
             sigma = eta

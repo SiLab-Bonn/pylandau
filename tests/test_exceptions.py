@@ -3,7 +3,6 @@
 import unittest
 
 import numpy as np
-from scipy.integrate import quad as integrate
 
 import pylandau
 
