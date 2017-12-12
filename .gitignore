@@ -56,3 +56,5 @@ scc_*/
 .pydevproject
 # Ignore cythonized files
 landau.cpp
+# hypothesis
+.hypothesis
