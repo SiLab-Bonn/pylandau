@@ -7,7 +7,7 @@ import numpy as np
 import pylandau
 
 
-class Test(unittest.TestCase):
+class TestExceptions(unittest.TestCase):
 
     def test_negative_amplitude(self):
         ''' Check exception for negative amplitude '''
@@ -21,5 +21,5 @@ class Test(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(Test)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestExceptions)
     unittest.TextTestRunner(verbosity=2).run(suite)

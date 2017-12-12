@@ -13,7 +13,7 @@ import pylandau
 from tests import constrains
 
 
-class Test(unittest.TestCase):
+class TestProperties(unittest.TestCase):
 
     def test_landau_pdf_integral(self):
         ''' Check that Landau pdf integral is 1 '''
@@ -80,5 +80,5 @@ class Test(unittest.TestCase):
         self.assertTrue(np.all(y_1 == y_2))
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(Test)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestProperties)
     unittest.TextTestRunner(verbosity=2).run(suite)
