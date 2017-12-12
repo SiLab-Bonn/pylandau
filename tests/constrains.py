@@ -1,5 +1,9 @@
 ''' Constrains that should be followed to ensure stable and proper results '''
 
+# Value input x
+MIN_X = - 1e9
+MAX_X = 1e9
+
 # pylandau.get_langau_pdf
 # pylandau.langau_pdf
 LANDAU_PDF_MIN_MU = -1e9
