@@ -10,7 +10,7 @@ import pylandau
 from tests import constrains
 
 
-class Test(unittest.TestCase):
+class TestFuzzing(unittest.TestCase):
 
     @given(st.floats(constrains.LANDAU_MIN_MPV,
                      constrains.LANDAU_MAX_MPV,
@@ -104,5 +104,5 @@ class Test(unittest.TestCase):
         self.assertTrue(np.all(y_1 == y_2))
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(Test)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestFuzzing)
     unittest.TextTestRunner(verbosity=2).run(suite)
