@@ -9,8 +9,8 @@ import numpy as np
 from scipy.optimize import fmin
 
 # Import library function
-from landaulib import (get_landau_pdf, get_gauss_pdf, get_langau_pdf,
-                       landau_pdf, langau_pdf)
+from pylandau.landaulib import (get_landau_pdf, get_gauss_pdf, get_langau_pdf,
+                                landau_pdf, langau_pdf)
 
 # These function add a amplitude parameter A and shift the function that mu = MPV
 # This is done numerically very simple, stability might suffer
@@ -78,7 +78,8 @@ def _check_parameter(mpv, eta, sigma, A=1.):
     if sigma < 0:
         sigma *= -1
     if sigma > 100 * eta:
-        print('WARNING: sigma > 100 * eta can lead to oszillations. Check result.')
+        print(
+            'WARNING: sigma > 100 * eta can lead to oszillations. Check result.')
     if A < 0.:
         raise ValueError('A has to be >= 0')
 
