@@ -131,7 +131,7 @@ def _check_parameter(mpv, eta, sigma, A=1.):
 
 def _scale_to_mpv(mu, eta, sigma=0., A=None):
     ''' In the original function definition mu != mpv.
-    This is fixed here numerically and the amplitude is
+    This is fixed here numerically. Also the amplitude is
     scaled to A. '''
 
     if sigma > 0:
@@ -139,7 +139,7 @@ def _scale_to_mpv(mu, eta, sigma=0., A=None):
         if abs(mu) > 1.:
             x0 = mu
         else:
-            x0 = 1. * np.sign(mu)
+            x0 = eta * np.sign(mu)
         res = fmin(lambda x: -langau_pdf(x, mu, eta, sigma), x0=x0,
                    full_output=True, disp=False, xtol=0.000001, ftol=0.000001)
     else:
@@ -147,7 +147,7 @@ def _scale_to_mpv(mu, eta, sigma=0., A=None):
         if abs(mu) > 1.:
             x0 = mu
         else:
-            x0 = 1. * np.sign(mu)
+            x0 = eta * np.sign(mu)
         res = fmin(lambda x: -landau_pdf(x, mu, eta), x0=x0,
                    full_output=True, disp=False, xtol=0.000001, ftol=0.000001)
 
