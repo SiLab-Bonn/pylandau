@@ -1,9 +1,11 @@
 ''' Script to check pylandau properties.
 '''
+
+from __future__ import print_function
 import unittest
 
 import numpy as np
-from hypothesis import given
+from hypothesis import given, seed
 import hypothesis.strategies as st
 
 from scipy.integrate import quad as integrate
@@ -54,6 +56,7 @@ class TestProperties(unittest.TestCase):
                    xtol=0.000001, ftol=0.000001)[0][0]
         self.assertAlmostEqual(mpv, mu - 0.22278, delta=1e9)
 
+    @seed(302934307671667531413257853548643485645)
     @given(st.tuples(
         # mpv
         st.floats(constrains.LANDAU_MIN_MPV,
@@ -77,6 +80,8 @@ class TestProperties(unittest.TestCase):
         x = np.linspace(mpv - 5 * eta, mpv + 5 * eta, 1000)
         y_1 = pylandau.landau(x, mpv=mpv, eta=eta, A=A)
         y_2 = pylandau.langau(x, mpv=mpv, eta=eta, sigma=0., A=A)
+        if not np.all(y_1 == y_2):
+            print(y_1, y_2)
         self.assertTrue(np.all(y_1 == y_2))
 
 if __name__ == '__main__':
