@@ -4,6 +4,7 @@
     function for additional features
 '''
 
+from __future__ import print_function
 import numpy as np
 from scipy.optimize import fmin
 
@@ -72,12 +73,12 @@ def langau(array, mpv=0, eta=1, sigma=1, A=1, scale_langau=True):
 
 def _check_parameter(mpv, eta, sigma, A=1.):
     if eta < 1e-9:
-        print 'WARNING: eta < 1e-9 is not supported. eta set to 1e-9.'
+        print('WARNING: eta < 1e-9 is not supported. eta set to 1e-9.')
         eta = 1e-9
     if sigma < 0:
         sigma *= -1
     if sigma > 100 * eta:
-        print 'WARNING: sigma > 100 * eta can lead to oszillations. Check result.'
+        print('WARNING: sigma > 100 * eta can lead to oszillations. Check result.')
     if A < 0.:
         raise ValueError('A has to be >= 0')
 
