@@ -6,7 +6,7 @@
 
 from __future__ import print_function
 import numpy as np
-from scipy.optimize import fmin
+from scipy import optimize
 
 # Import library function
 from pylandau.landaulib import (get_landau_pdf, get_gauss_pdf, get_langau_pdf,
@@ -45,7 +45,8 @@ def landau(array, mpv=0, eta=1, A=1):
     mpv_scaled, eta, sigma, A_scaled = _scale_to_mpv(mpv, eta, sigma=0., A=A)
 
     # Numerical scaling maximum to A
-    return landau_pdf(array, mpv_scaled, eta) * A_scaled
+    y = landau_pdf(array, mpv_scaled, eta)
+    return y * A_scaled
 
 
 def langau(array, mpv=0, eta=1, sigma=1, A=1, scale_langau=True):
@@ -68,7 +69,8 @@ def langau(array, mpv=0, eta=1, sigma=1, A=1, scale_langau=True):
         mpv_scaled, _, _, A_scaled = _scale_to_mpv(mpv, eta, sigma=0, A=A)
 
     # Numerical scaling maximum to A
-    return langau_pdf(array, mpv_scaled, eta, sigma) * A_scaled
+    y = langau_pdf(array, mpv_scaled, eta, sigma)
+    return y * A_scaled
 
 
 def _check_parameter(mpv, eta, sigma, A=1.):
@@ -91,29 +93,35 @@ def _scale_to_mpv(mu, eta, sigma=0., A=None):
     This is fixed here numerically. Also the amplitude is
     scaled to A. '''
 
-    if sigma > 0:
-        # https://github.com/SiLab-Bonn/pyLandau/issues/11
-        if abs(mu) > 1.:
-            x0 = mu
-        else:
-            x0 = eta * np.sign(mu)
-        res = fmin(lambda x: -langau_pdf(x, mu, eta, sigma), x0=x0,
-                   full_output=True, disp=False, xtol=0.000001, ftol=0.000001)
-    else:
-        # https://github.com/SiLab-Bonn/pyLandau/issues/11
-        if abs(mu) > 1.:
-            x0 = mu
-        else:
-            x0 = eta * np.sign(mu)
-        res = fmin(lambda x: -landau_pdf(x, mu, eta), x0=x0,
-                   full_output=True, disp=False, xtol=0.000001, ftol=0.000001)
+    # Shift mu to enhance convergence for large mu in numerical optimizers
+    # https://github.com/SiLab-Bonn/pylandau/issues/6
+    mu_in = mu
+    mu = 0.
 
-    if res[4] != 0:
-        raise RuntimeError(
-            'Cannot calculate MPV, check function parameters and file bug report!')
+    if sigma > 0:
+        dx = 3. * eta * sigma
+        if dx < 1:
+            dx = 1.
+        res = optimize.minimize_scalar(lambda x, mu, eta, sigma: -get_langau_pdf(x, mu, eta, sigma),
+                                       bounds=(mu - dx, mu + dx),
+                                       args=(mu, eta, sigma),
+                                       method='bounded',
+                                       options={'xatol': 1e-09})
+    else:
+        dx = 3. * eta
+        if dx < 1:
+            dx = 1.
+        res = optimize.minimize_scalar(lambda x, mu, eta: -get_landau_pdf(x, mu, eta),
+                                       bounds=(mu - dx, mu + dx),
+                                       args=(mu, eta),
+                                       method='bounded',
+                                       options={'xatol': 1e-09})
+    if not res.success or res.fun == 0.:
+        raise RuntimeError('Cannot calculate MPV'
+                           ', check function parameters and file bug report!')
 
     if A:
-        A = A / -res[1]
-        return mu + (mu - res[0]), eta, sigma, A
+        A = A / -res.fun
+        return mu_in - res.x, eta, sigma, A
     else:
-        return mu + (mu - res[0]), eta, sigma
+        return mu_in - res.x, eta, sigma
