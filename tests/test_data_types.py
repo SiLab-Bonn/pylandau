@@ -4,22 +4,15 @@ import unittest
 
 import numpy as np
 
-from hypothesis import given, seed, assume
+from hypothesis import given
 import hypothesis.extra.numpy as nps
 import hypothesis.strategies as st
-from scipy.integrate import quad as integrate
 
 from tests import constraints
+from tests.utils import settings as _
+
 
 import pylandau
-
-
-@st.defines_strategy
-def scalar_dtypes():
-    """Return a strategy that can return any non-flexible scalar dtype."""
-    return
-
-# @st.composite
 
 
 def python_number(draw, min_val, max_val):
@@ -27,10 +20,8 @@ def python_number(draw, min_val, max_val):
                                     max_val,
                                     allow_nan=False,
                                     allow_infinity=False),
-                          st.integers(min_val,
-                                      max_val)))
-
-# @st.composite
+                          st.integers(np.ceil(min_val),
+                                      np.floor(max_val))))
 
 
 def numpy_number(draw, min_val, max_val):
@@ -46,6 +37,7 @@ def numpy_number(draw, min_val, max_val):
         number = draw(st.floats(min_val, max_val, allow_nan=False,
                                 allow_infinity=False))
     else:
+        min_val, max_val = np.ceil(min_val), np.floor(max_val)
         if min_val < np.iinfo(dtype).min:
             min_val = np.iinfo(dtype).min
         if max_val > np.iinfo(dtype).max:

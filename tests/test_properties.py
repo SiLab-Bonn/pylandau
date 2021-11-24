@@ -71,6 +71,7 @@ class TestProperties(unittest.TestCase):
                   allow_nan=False,
                   allow_infinity=False),)
            )
+    @settings(deadline=None)  # Test is known to take some time
     def test_landau_fallback(self, pars):
         ''' Check if langau is landau for sigma = 0 '''
         (mpv, eta, A) = pars
@@ -78,6 +79,7 @@ class TestProperties(unittest.TestCase):
         y_1 = pylandau.landau(x, mpv=mpv, eta=eta, A=A)
         y_2 = pylandau.langau(x, mpv=mpv, eta=eta, sigma=0., A=A)
         self.assertTrue(np.all(y_1 == y_2))
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(TestProperties)
