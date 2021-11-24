@@ -26,9 +26,9 @@ else:
                                sources=['pyLandau/cpp/pylandau.cpp'],
                                language="c++")]
 
-version = '2.1.1'
-author = 'David-Leon Pohl'
-author_email = 'pohl@physik.uni-bonn.de'
+version = '2.1.2'
+author = 'David-Leon Pohl, Christian Bespin'
+author_email = 'pohl@physik.uni-bonn.de, bespin@physik.uni-bonn.de'
 
 install_requires = ['cython', 'numpy']
 setup_requires = ['cython', 'numpy']
