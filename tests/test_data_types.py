@@ -3,16 +3,13 @@
 import unittest
 
 import numpy as np
+import pylandau
 
 from hypothesis import given
 import hypothesis.extra.numpy as nps
 import hypothesis.strategies as st
 
 from tests import constraints
-from tests.utils import settings as _
-
-
-import pylandau
 
 
 def python_number(draw, min_val, max_val):

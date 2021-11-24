@@ -3,13 +3,13 @@
 import unittest
 
 import numpy as np
-from hypothesis import given
-import hypothesis.strategies as st
+import pylandau
 
+from hypothesis import given, settings
+import hypothesis.strategies as st
 from scipy.integrate import quad as integrate
 from scipy.optimize import fmin
 
-import pylandau
 from tests import constraints
 
 

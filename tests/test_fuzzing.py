@@ -2,11 +2,12 @@
 '''
 import unittest
 
+import numpy as np
+import pylandau
+
 from hypothesis import given, assume
 import hypothesis.strategies as st
-import numpy as np
 
-import pylandau
 from tests import constraints
 
 
