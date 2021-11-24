@@ -1,12 +1,13 @@
 #!/usr/bin/env python
+import builtins
 from setuptools import setup, find_packages, Extension  # This setup relies on setuptools since distutils is insufficient and badly hacked code
 from setuptools.command.build_ext import build_ext as _build_ext
 
 class build_ext(_build_ext):
     def finalize_options(self):
         _build_ext.finalize_options(self)
-        # Prevent numpy from thinking it is still in its setup process:
-        __builtins__.__NUMPY_SETUP__ = False
+        # # Prevent numpy from thinking it is still in its setup process:
+        builtins.__NUMPY_SETUP__ = False
         import numpy
         self.include_dirs.append(numpy.get_include())
 
@@ -29,8 +30,8 @@ version = '2.1.1'
 author = 'David-Leon Pohl'
 author_email = 'pohl@physik.uni-bonn.de'
 
-install_requires = ['cython', 'numpy'] # scipy
-setup_requires = ['numpy', 'cython']
+install_requires = ['cython', 'numpy']
+setup_requires = ['cython', 'numpy']
 
 setup(
     name='pylandau',
