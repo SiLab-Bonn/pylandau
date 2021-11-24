@@ -10,7 +10,7 @@ from scipy.integrate import quad as integrate
 from scipy.optimize import fmin
 
 import pylandau
-from tests import constrains
+from tests import constraints
 
 
 class TestProperties(unittest.TestCase):
@@ -33,8 +33,8 @@ class TestProperties(unittest.TestCase):
                               0, 10000, args=(10, 3))
         self.assertAlmostEqual(result, 1, delta=1e-3)
 
-    @given(st.floats(constrains.LANDAU_PDF_MIN_MU,
-                     constrains.LANDAU_PDF_MAX_MU,
+    @given(st.floats(constraints.LANDAU_PDF_MIN_MU,
+                     constraints.LANDAU_PDF_MAX_MU,
                      allow_nan=False,
                      allow_infinity=False))
     def test_landau_pdf_mu(self, mu):
@@ -56,18 +56,18 @@ class TestProperties(unittest.TestCase):
 
     @given(st.tuples(
         # mpv
-        st.floats(constrains.LANDAU_MIN_MPV,
-                  constrains.LANDAU_MAX_MPV,
+        st.floats(constraints.LANDAU_MIN_MPV,
+                  constraints.LANDAU_MAX_MPV,
                   allow_nan=False,
                   allow_infinity=False),
         # eta
-        st.floats(constrains.LANDAU_MIN_ETA,
-                  constrains.LANDAU_MAX_ETA,
+        st.floats(constraints.LANDAU_MIN_ETA,
+                  constraints.LANDAU_MAX_ETA,
                   allow_nan=False,
                   allow_infinity=False),
         # A
-        st.floats(constrains.LANDAU_MIN_A,
-                  constrains.LANDAU_MAX_A,
+        st.floats(constraints.LANDAU_MIN_A,
+                  constraints.LANDAU_MAX_A,
                   allow_nan=False,
                   allow_infinity=False),)
            )

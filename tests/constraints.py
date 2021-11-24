@@ -1,4 +1,4 @@
-''' Constrains that should be followed to ensure stable and proper results '''
+''' Constraints that should be followed to ensure stable and proper results '''
 
 # Value input x
 MIN_X = - 1e9
@@ -26,4 +26,4 @@ LANGAU_MIN_SIGMA = 1e-1
 LANGAU_MAX_SIGMA = 1e9
 LANGAU_MIN_A = 0.
 LANGAU_MAX_A = 1e9
-LANGAU_MAX_ETA_SIGMA = 1e9 # sigma * eta
+LANGAU_MAX_ETA_SIGMA = 1e9  # sigma * eta

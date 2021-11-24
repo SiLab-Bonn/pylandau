@@ -9,7 +9,7 @@ import hypothesis.extra.numpy as nps
 import hypothesis.strategies as st
 from scipy.integrate import quad as integrate
 
-from tests import constrains
+from tests import constraints
 
 import pylandau
 
@@ -58,81 +58,81 @@ def numpy_number(draw, min_val, max_val):
 @st.composite
 def A_landau(draw):
     return draw(st.sampled_from([numpy_number(draw,
-                                              constrains.LANDAU_MIN_A,
-                                              constrains.LANDAU_MAX_A),
+                                              constraints.LANDAU_MIN_A,
+                                              constraints.LANDAU_MAX_A),
                                  python_number(draw,
-                                               constrains.LANDAU_MIN_A,
-                                               constrains.LANDAU_MAX_A)]))
+                                               constraints.LANDAU_MIN_A,
+                                               constraints.LANDAU_MAX_A)]))
 
 
 @st.composite
 def MPV_landau(draw):
     return draw(st.sampled_from([numpy_number(draw,
-                                              constrains.LANDAU_MIN_MPV,
-                                              constrains.LANDAU_MAX_MPV),
+                                              constraints.LANDAU_MIN_MPV,
+                                              constraints.LANDAU_MAX_MPV),
                                  python_number(draw,
-                                               constrains.LANDAU_MIN_MPV,
-                                               constrains.LANDAU_MAX_MPV)]))
+                                               constraints.LANDAU_MIN_MPV,
+                                               constraints.LANDAU_MAX_MPV)]))
 
 
 @st.composite
 def eta_landau(draw):
     return draw(st.sampled_from([numpy_number(draw,
-                                              constrains.LANDAU_MIN_ETA,
-                                              constrains.LANDAU_MAX_ETA),
+                                              constraints.LANDAU_MIN_ETA,
+                                              constraints.LANDAU_MAX_ETA),
                                  python_number(draw,
-                                               constrains.LANDAU_MIN_ETA,
-                                               constrains.LANDAU_MAX_ETA)]))
+                                               constraints.LANDAU_MIN_ETA,
+                                               constraints.LANDAU_MAX_ETA)]))
 
 
 @st.composite
 def A_langau(draw):
     return draw(st.sampled_from([numpy_number(draw,
-                                              constrains.LANGAU_MIN_A,
-                                              constrains.LANGAU_MAX_A),
+                                              constraints.LANGAU_MIN_A,
+                                              constraints.LANGAU_MAX_A),
                                  python_number(draw,
-                                               constrains.LANGAU_MIN_A,
-                                               constrains.LANGAU_MAX_A)]))
+                                               constraints.LANGAU_MIN_A,
+                                               constraints.LANGAU_MAX_A)]))
 
 
 @st.composite
 def MPV_langau(draw):
     return draw(st.sampled_from([numpy_number(draw,
-                                              constrains.LANGAU_MIN_MPV,
-                                              constrains.LANGAU_MAX_MPV),
+                                              constraints.LANGAU_MIN_MPV,
+                                              constraints.LANGAU_MAX_MPV),
                                  python_number(draw,
-                                               constrains.LANGAU_MIN_MPV,
-                                               constrains.LANGAU_MAX_MPV)]))
+                                               constraints.LANGAU_MIN_MPV,
+                                               constraints.LANGAU_MAX_MPV)]))
 
 
 @st.composite
 def eta_langau(draw):
     return draw(st.sampled_from([numpy_number(draw,
-                                              constrains.LANGAU_MIN_ETA,
-                                              constrains.LANGAU_MAX_ETA),
+                                              constraints.LANGAU_MIN_ETA,
+                                              constraints.LANGAU_MAX_ETA),
                                  python_number(draw,
-                                               constrains.LANGAU_MIN_ETA,
-                                               constrains.LANGAU_MAX_ETA)]))
+                                               constraints.LANGAU_MIN_ETA,
+                                               constraints.LANGAU_MAX_ETA)]))
 
 
 @st.composite
 def sigma_langau(draw):
     return draw(st.sampled_from([numpy_number(draw,
-                                              constrains.LANGAU_MIN_SIGMA,
-                                              constrains.LANGAU_MAX_SIGMA),
+                                              constraints.LANGAU_MIN_SIGMA,
+                                              constraints.LANGAU_MAX_SIGMA),
                                  python_number(draw,
-                                               constrains.LANGAU_MIN_SIGMA,
-                                               constrains.LANGAU_MAX_SIGMA)]))
+                                               constraints.LANGAU_MIN_SIGMA,
+                                               constraints.LANGAU_MAX_SIGMA)]))
 
 
 @st.composite
 def x(draw):
     return draw(st.sampled_from([numpy_number(draw,
-                                              constrains.MIN_X,
-                                              constrains.MAX_X),
+                                              constraints.MIN_X,
+                                              constraints.MAX_X),
                                  python_number(draw,
-                                               constrains.MIN_X,
-                                               constrains.MAX_X)]))
+                                               constraints.MIN_X,
+                                               constraints.MAX_X)]))
 
 
 class TestDatatypes(unittest.TestCase):
