@@ -126,7 +126,7 @@ def _check_parameter(mpv, eta, sigma, A=1.):
     if A < 0.:
         raise ValueError('A has to be >= 0')
 
-    return np.float(mpv), np.float(eta), np.float(sigma), np.float(A)
+    return float(mpv), float(eta), float(sigma), float(A)
 
 
 def _scale_to_mpv(mu, eta, sigma=0., A=None):
