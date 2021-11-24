@@ -43,7 +43,7 @@ setup(
     maintainer=author,
     author_email=author_email,
     maintainer_email=author_email,
-    cmdclass={'build_ext':build_ext},
+    cmdclass={'build_ext': build_ext},
     install_requires=install_requires,
     setup_requires=setup_requires,
     packages=find_packages(),

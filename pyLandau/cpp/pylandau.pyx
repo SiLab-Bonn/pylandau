@@ -1,7 +1,7 @@
 # distutils: language = c++
 # cython: boundscheck=False
 # cython: wraparound=False
-# cython: embedsignature =True
+# cython: embedsignature=True
 
 import numpy as np
 cimport numpy as cnp
