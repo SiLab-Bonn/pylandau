@@ -1,0 +1,35 @@
+name: Tests
+
+on:
+  push:
+    branches:
+    - master
+    - '*rc'
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  tests:
+    name: Python ${{matrix.python-version}}
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+      - python-version: [3.7, 3.8, 3.9]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Anaconda ${{matrix.python-version}}
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        auto-update-conda: true
+        python-versoin: ${{matrix.python-version}}
+    - name: Install dependencies
+      run: |
+        conda info -a
+        conda install cython hypothesis numpy pytest scipy
+    - name: Install package
+      run: |
+        pip install -e .
+    - name: Run tests
+      run: pytest
