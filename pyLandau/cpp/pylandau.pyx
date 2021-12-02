@@ -1,7 +1,9 @@
+# distutils: language=c++
 # distutils: language = c++
 # cython: boundscheck=False
 # cython: wraparound=False
 # cython: embedsignature=True
+# cython: language_level=3
 
 import numpy as np
 cimport numpy as cnp
@@ -13,6 +15,7 @@ from scipy.optimize import fmin
 
 cdef extern from "numpy/arrayobject.h":
     void PyArray_ENABLEFLAGS(cnp.ndarray arr, int flags)
+
 
 cdef extern from "pylandau_src.cpp":
     double * getLandauPDFData(double * & data, const unsigned int & size, const double & mu, const double & eta) except +
@@ -29,8 +32,8 @@ cdef data_to_numpy_array_double(cnp.double_t * ptr, cnp.npy_intp N):
 
 cdef cnp.double_t * result = NULL
 
-# The pdf are defined by the original algorithm where mu != MPV
 
+# The pdf are defined by the original algorithm where mu != MPV
 
 def get_landau_pdf(value, mu=0, eta=1):
     return landauPDF(< const double&> value, < const double&> mu, < const double&> eta)
@@ -117,12 +120,12 @@ def langau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, sigma=1, A=1, 
 
 def _check_parameter(mpv, eta, sigma, A=1.):
     if eta < 1e-9:
-        print 'WARNING: eta < 1e-9 is not supported. eta set to 1e-9.'
+        print('WARNING: eta < 1e-9 is not supported. eta set to 1e-9.')
         eta = 1e-9
     if sigma < 0:
         sigma *= -1
     if sigma > 100 * eta:
-        print 'WARNING: sigma > 100 * eta can lead to oszillations. Check result.'
+        print('WARNING: sigma > 100 * eta can lead to oszillations. Check result.')
     if A < 0.:
         raise ValueError('A has to be >= 0')
 
