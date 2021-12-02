@@ -1,13 +1,13 @@
 # distutils: language=c++
-# distutils: language = c++
+# distutils: define_macros=CYTHON_TRACE=1
 # cython: boundscheck=False
 # cython: wraparound=False
 # cython: embedsignature=True
+# cython: linetrace=True
 # cython: language_level=3
 
 import numpy as np
 cimport numpy as cnp
-from libcpp.vector cimport vector
 cnp.import_array()
 
 from scipy.optimize import fmin
