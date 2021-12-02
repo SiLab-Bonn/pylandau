@@ -1,7 +1,7 @@
 name: Build wheels
 
-on:
-  release
+on: workflow_dispatch
+  # release
 
 jobs:
   build_wheels:
