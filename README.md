@@ -9,9 +9,9 @@ The project is hosted at [PyPI](https://pypi.org/project/pylandau). For installa
 pip install pylandau
 ```
 
-If you want to change the code or start contributing download it and put it into a directory of your choice. From there run:
+If you want to change the code or start contributing download it and put it into a directory of your choice. From the project root folder run:
 ```
-python setup.py develop
+pip install -e .
 ```
 ## Usage
 
