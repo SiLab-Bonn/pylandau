@@ -1,2 +1,2 @@
-numpy
-cython
+numpy>=1.21
+cython>=0.29

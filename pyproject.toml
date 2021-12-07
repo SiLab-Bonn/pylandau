@@ -16,6 +16,6 @@ maintainer_email = 'pohl@physik.uni-bonn.de, bespin@physik.uni-bonn.de'
 requires = [
     "setuptools",
     "wheel",
-    "numpy",
+    "numpy>=1.21",
 ]  # PEP 508 specifications
 build-backend = "setuptools.build_meta"
