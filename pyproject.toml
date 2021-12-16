@@ -17,5 +17,6 @@ requires = [
     "setuptools",
     "wheel",
     "numpy>=1.21",
+    "cython>=0.29",
 ]  # PEP 508 specifications
 build-backend = "setuptools.build_meta"
