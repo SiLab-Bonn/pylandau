@@ -24,6 +24,7 @@ jobs:
         CIBW_PROJECT_REQUIRES_PYTHON: ">=3.7"
         CIBW_SKIP: cp37-musllinux* cp38-musllinux* cp39-musllinux*
         CIBW_ARCHS_MACOS: x86_64 arm64
+        CIBW_TEST_COMMAND: "echo Wheel installed"
 
     - uses: actions/upload-artifact@v2
       with:
