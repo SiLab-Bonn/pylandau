@@ -20,9 +20,10 @@ jobs:
       env:
         CIBW_ARCHS: auto64  # Build 64bit versions only
         CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
-        CIBW_BUILD: cp37-* cp38-* cp39-*  # Build on CPython 3.7 - 3.9 only for now
-        CIBW_PROJECT_REQUIRES_PYTHON: ">=3.7"
-        CIBW_SKIP: cp37-musllinux* cp38-musllinux* cp39-musllinux*
+        CIBW_MANYLINUX_AARCH64_IMAGE: "manylinux2014"
+        CIBW_BUILD: "cp38-* cp39-* cp310-*"  # Build on CPython 3.8 - 3.10 only
+        CIBW_PROJECT_REQUIRES_PYTHON: ">=3.8"
+        CIBW_SKIP: "*-manylinux_i686 *_ppc64le *_s390x *-musllinux*"
         CIBW_ARCHS_MACOS: x86_64 arm64
         CIBW_TEST_COMMAND: "echo Wheel installed"
 
