@@ -1,6 +1,6 @@
 [project]
 name = 'pylandau'
-version = '2.1.2'
+version = '2.2.0'
 description = 'A Landau PDF definition to be used in Python.'
 repository = 'https://github.com/SiLab-Bonn/pyLandau'
 license = 'LGPL-2.1-only'
