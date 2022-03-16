@@ -1,2 +1,2 @@
-scipy
 hypothesis
+pytest

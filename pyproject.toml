@@ -4,7 +4,7 @@ version = '2.1.2'
 description = 'A Landau PDF definition to be used in Python.'
 repository = 'https://github.com/SiLab-Bonn/pyLandau'
 license = 'LGPL-2.1-only'
-python = '^3.7'
+python = '^3.8'
 readme = 'README.md'
 authors = 'David-Leon Pohl, Christian Bespin'
 maintainers  ='David-Leon Pohl, Christian Bespin'
@@ -16,7 +16,7 @@ maintainer_email = 'pohl@physik.uni-bonn.de, bespin@physik.uni-bonn.de'
 requires = [
     "setuptools",
     "wheel",
-    "numpy>=1.21",
+    "numpy>=1.22",
     "cython>=0.29",
 ]  # PEP 508 specifications
 build-backend = "setuptools.build_meta"

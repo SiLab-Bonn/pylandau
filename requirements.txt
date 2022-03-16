@@ -1,3 +1,2 @@
-numpy>=1.21
-cython>=0.29
-scipy>=1.7
+numpy>=1.22
+scipy>=1.8
