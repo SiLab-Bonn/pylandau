@@ -27,7 +27,7 @@ else:
                                sources=['pyLandau/cpp/pylandau.cpp'],
                                language="c++")]
 
-install_requires = ['numpy>=1.22', 'scipy>=1.8']
+install_requires = ['cython>=0.29', 'numpy>=1.21']
 
 setup(
     cmdclass={'build_ext': build_ext},
