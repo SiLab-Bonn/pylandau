@@ -13,7 +13,7 @@ maintainers = [
     {name = 'Christian Bespin', email = 'bespin@physik.uni-bonn.de'}
 ]
 dependencies = [
-  "cython>=0.29",
+  "numba>=0.53",
   "numpy>=1.21",
   "scipy>=1.7",
 ]
@@ -27,6 +27,6 @@ requires = [
     "setuptools",
     "wheel",
     "numpy>=1.21",
-    "cython>=0.29",
+    "numba>=0.53",
 ]  # PEP 508 specifications
 build-backend = "setuptools.build_meta"
