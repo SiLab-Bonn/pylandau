@@ -2,6 +2,7 @@
 import builtins
 from setuptools import setup, find_packages, Extension  # This setup relies on setuptools since distutils is insufficient and badly hacked code
 from setuptools.command.build_ext import build_ext as _build_ext
+from pyLandau.numba.pylandau_src import pylandau_numba_ext
 
 
 class build_ext(_build_ext):
@@ -35,7 +36,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,  # accept all data files and directories matched by MANIFEST.in or found in source control
     package_data={'': ['README.*', 'VERSION'], 'docs': ['*'], 'examples': ['*']},
-    ext_modules=cpp_extension,
+    ext_modules=pylandau_numba_ext.distutils_extension(),
     keywords=['Landau', 'Langau', 'PDF'],
     platforms='any'
 )
