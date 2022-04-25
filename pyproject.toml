@@ -3,7 +3,7 @@ name = 'pylandau'
 version = '2.2.0'
 description = 'A Landau PDF definition to be used in Python.'
 license = {file = 'LICENSE'}
-requires-python = '>=3.7'
+requires-python = '>=3.8'
 readme = 'README.md'
 authors = [
     {name = 'David-Leon Pohl', email = 'pohl@physik.uni-bonn.de'}, 
@@ -11,6 +11,11 @@ authors = [
 ]
 maintainers = [ 
     {name = 'Christian Bespin', email = 'bespin@physik.uni-bonn.de'}
+]
+dependencies = [
+  "cython>=0.29",
+  "numpy>=1.21",
+  "scipy>=1.7",
 ]
 
 [project.urls]
