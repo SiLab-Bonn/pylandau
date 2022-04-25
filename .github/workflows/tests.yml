@@ -25,9 +25,9 @@ jobs:
       with:
         python-version: ${{matrix.python-version}}
         cache: 'pip'
-    - name: Install dependencies
-      run: pip install cython numpy scipy hypothesis pytest
     - name: Install package
       run: pip install -e .
+    - name: Install test dependencies
+      run: pip install hypothesis pytest
     - name: Run tests
       run: pytest
