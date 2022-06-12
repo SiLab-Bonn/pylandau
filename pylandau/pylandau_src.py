@@ -26,9 +26,9 @@ from numba import njit
 
 
 # Define the module our extension will be available in
-pylandau_numba_ext = CC('pylandau_ext')  # FIXME: add extension as submodule of pylandau: Unfortunately "module.submodule" syntax is not allowed
-
-# Show compilation steps
+# FIXME: add extension as submodule of pylandau: Unfortunately "module.submodule" syntax is not allowed
+# See https://github.com/numba/numba/issues/8013 for more info
+pylandau_numba_ext = CC('pylandau_ext')
 pylandau_numba_ext.verbose = True
 
 
