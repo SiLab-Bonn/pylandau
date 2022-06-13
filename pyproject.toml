@@ -10,7 +10,7 @@ authors = [
     {name = 'Christian Bespin', email = 'bespin@physik.uni-bonn.de'}
 ]
 maintainers = [ 
-    {name = 'Christian Bespin', email = 'bespin@physik.uni-bonn.de'}
+    {name = 'Christian Bespin', email = 'bespin@physik.uni-bonn.de'},
     {name = 'Pascal Wolf', email = 'wolf@physik.uni-bonn.de'}
 ]
 dependencies = [
