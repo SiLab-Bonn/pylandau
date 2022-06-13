@@ -1,6 +1,6 @@
 [project]
 name = 'pylandau'
-version = '2.2.1'
+version = '3.0.0'
 description = 'A Landau PDF definition to be used in Python.'
 license = {file = 'LICENSE'}
 requires-python = '>=3.8'
@@ -11,6 +11,7 @@ authors = [
 ]
 maintainers = [ 
     {name = 'Christian Bespin', email = 'bespin@physik.uni-bonn.de'}
+    {name = 'Pascal Wolf', email = 'wolf@physik.uni-bonn.de'}
 ]
 dependencies = [
   "numba>=0.53",
@@ -28,5 +29,6 @@ requires = [
     "wheel",
     "numpy>=1.21",
     "numba>=0.53",
+    "scipy>=1.7",
 ]  # PEP 508 specifications
 build-backend = "setuptools.build_meta"
