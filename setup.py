@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages  # This setup relies on setuptools since distutils is insufficient and badly hacked code
-from pylandau.pylandau_src import pylandau_numba_ext
-
+from src.pylandau_src import pylandau_numba_ext
 
 install_requires = ['numba>=0.53', 'numpy>=1.21', 'scipy>=1.6']
 

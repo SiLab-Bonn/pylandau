@@ -29,6 +29,7 @@ from numba import njit
 # FIXME: add extension as submodule of pylandau: Unfortunately "module.submodule" syntax is not allowed
 # See https://github.com/numba/numba/issues/8013 for more info
 pylandau_numba_ext = CC('pylandau_ext')
+pylandau_numba_ext._source_module = 'pylandau.pylandau_ext'
 pylandau_numba_ext.verbose = True
 
 

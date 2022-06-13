@@ -1,13 +1,6 @@
 import numpy as np
 from scipy.optimize import fmin
-
-# Shady stuff to maintain project structure
-try:
-    from pylandau import pylandau_ext
-except ImportError:
-    from .pylandau_src import pylandau_numba_ext
-    pylandau_numba_ext.compile()
-    from pylandau import pylandau_ext
+from pylandau import pylandau_ext
 
 
 # Define functions for top-level
