@@ -8,24 +8,29 @@ __all__ = ['get_landau_pdf', 'get_gauss_pdf', 'get_langau_pdf', 'landau_pdf', 'l
 
 
 def get_landau_pdf(value, mu=0, eta=1):
+    value, mu, eta, _ = _ensure_types(value, mu, eta, None)
     return pylandau_ext.get_landau_pdf(value, mu, eta)
 
 
 def get_gauss_pdf(value, mu=0, sigma=1):
+    value, mu, _, sigma = _ensure_types(value, mu, None, sigma)
     return pylandau_ext.get_gauss_pdf(value, mu, sigma)
 
 
 def get_langau_pdf(value, mu=0, eta=1, sigma=1):
+    value, mu, eta, sigma = _ensure_types(value, mu, eta, sigma)
     return pylandau_ext.get_langau_pdf(value, mu, eta, sigma)
 
 
 def landau_pdf(array, mu=0, eta=1):
-    _, eta, _, _ = _check_parameter(mpv=mu, eta=eta, sigma=0.)
+    _check_parameter(mpv=mu, eta=eta, sigma=0.)
+    array, mu, eta, _ = _ensure_types(array, mu, eta, sigma=None, val_is_array=True)
     return pylandau_ext.landau_pdf(array, mu, eta)
 
 
 def langau_pdf(array, mu=0, eta=1, sigma=1):
-    _, eta, sigma, _ = _check_parameter(mpv=mu, eta=eta, sigma=sigma)
+    _check_parameter(mpv=mu, eta=eta, sigma=sigma)
+    array, mu, eta, sigma = _ensure_types(array, mu, eta, sigma, val_is_array=True)
     return pylandau_ext.langau_pdf(array, mu, eta, sigma)
 
 
@@ -87,6 +92,32 @@ def langau(array, mpv=0, eta=1, sigma=1, A=1, scale_langau=True):
     return langau_pdf(array, mpv_scaled, eta, sigma) * A_scaled
 
 
+def _ensure_types(val, mu, eta, sigma, val_is_array=False):
+    """
+    Function to cater correct types to Numba-generated extension.
+
+    Parameters
+    ----------
+    val : float, int, array
+        Input value to be converted to float or np.array.astype(float)
+    mu : float, int
+        Mean of distribution
+    eta : float, int, None
+        Eta of distribution
+    sigma : float, int, None
+        Sigma of distribution
+    val_is_array : bool, optional
+        Whether the *val* argument needs to be an array, by default False
+    """
+
+    # Convert to f8
+    mu, eta, sigma = (float(x) if x is not None else None for x in (mu, eta, sigma))
+
+    val = np.asarray(val).astype(float) if val_is_array else float(val)
+
+    return val, mu, eta, sigma
+
+
 def _check_parameter(mpv, eta, sigma, A=1.):
     if eta < 1e-9:
         print('WARNING: eta < 1e-9 is not supported. eta set to 1e-9.')
@@ -112,7 +143,7 @@ def _scale_to_mpv(mu, eta, sigma=0., A=None):
             x0 = mu
         else:
             x0 = eta * np.sign(mu)
-        res = fmin(lambda x: -pylandau_ext.langau_pdf(x, mu, eta, sigma), x0=x0,
+        res = fmin(lambda x: -langau_pdf(x, mu, eta, sigma), x0=x0,
                    full_output=True, disp=False, xtol=0.000001, ftol=0.000001)
     else:
         # https://github.com/SiLab-Bonn/pyLandau/issues/11
@@ -120,7 +151,7 @@ def _scale_to_mpv(mu, eta, sigma=0., A=None):
             x0 = mu
         else:
             x0 = eta * np.sign(mu)
-        res = fmin(lambda x: -pylandau_ext.landau_pdf(x, mu, eta), x0=x0,
+        res = fmin(lambda x: -landau_pdf(x, mu, eta), x0=x0,
                    full_output=True, disp=False, xtol=0.000001, ftol=0.000001)
 
     if res[4] != 0:
