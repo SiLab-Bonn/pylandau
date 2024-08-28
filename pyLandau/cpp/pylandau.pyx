@@ -12,6 +12,13 @@ cnp.import_array()
 
 from scipy.optimize import fmin
 
+from scipy.optimize import fmin
+import logging
+
+# Configure logging
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+
 
 cdef extern from "numpy/arrayobject.h":
     void PyArray_ENABLEFLAGS(cnp.ndarray arr, int flags)
@@ -120,12 +127,12 @@ def langau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, sigma=1, A=1, 
 
 def _check_parameter(mpv, eta, sigma, A=1.):
     if eta < 1e-9:
-        print('WARNING: eta < 1e-9 is not supported. eta set to 1e-9.')
+        logger.warning('eta < 1e-9 is not supported. eta set to 1e-9.')
         eta = 1e-9
     if sigma < 0:
         sigma *= -1
     if sigma > 100 * eta:
-        print('WARNING: sigma > 100 * eta can lead to oszillations. Check result.')
+        logger.warning('sigma > 100 * eta can lead to oszillations. Check result.')
     if A < 0.:
         raise ValueError('A has to be >= 0')
 
