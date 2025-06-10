@@ -111,9 +111,17 @@ def _ensure_types(val, mu, eta, sigma, val_is_array=False):
     """
 
     # Convert to f8
+    if isinstance(mu, np.ndarray):
+        mu = mu[0]
+    if isinstance(eta, np.ndarray):
+        eta = eta[0]
+    if isinstance(sigma, np.ndarray):
+        sigma = sigma[0]
     mu, eta, sigma = (float(x) if x is not None else None for x in (mu, eta, sigma))
 
-    val = np.asarray(val).astype(float) if val_is_array else float(val)
+    if isinstance(val, np.ndarray) and not val_is_array:
+        val = val[0]
+    val = val.astype(float) if val_is_array else float(val)
 
     return val, mu, eta, sigma
 
@@ -128,7 +136,8 @@ def _check_parameter(mpv, eta, sigma, A=1.):
         print('WARNING: sigma > 100 * eta can lead to oszillations. Check result.')
     if A < 0.:
         raise ValueError('A has to be >= 0')
-
+    if isinstance(mpv, np.ndarray):
+        mpv = mpv[0]
     return float(mpv), float(eta), float(sigma), float(A)
 
 
@@ -158,8 +167,8 @@ def _scale_to_mpv(mu, eta, sigma=0., A=None):
         raise RuntimeError(
             'Cannot calculate MPV, check function parameters and file bug report!')
 
-    if A:
+    if A and -res[1] != 0:
         A = A / -res[1]
         return mu + (mu - res[0]), eta, sigma, A
     else:
-        return mu + (mu - res[0]), eta, sigma
+        return mu + (mu - res[0]), eta, sigma, A

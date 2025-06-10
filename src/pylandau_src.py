@@ -69,16 +69,16 @@ def landauPDF(x, x0, xi):
     v = (x - x0) / xi
 
     if v < -5.5:
-        u = math.exp(v + 1.0)
+        u = np.exp(v + 1.0)
         if u < 1e-10:
             return 0.0
-        ue = math.exp(-1 / u)
-        us = math.sqrt(u)
+        ue = np.exp(-1 / u)
+        us = np.sqrt(u)
         denlan = 0.3989422803 * (ue / us) * (1 + (a1[0] + (a1[1] + a1[2] * u) * u) * u)
 
     elif v < -1:
-        u = math.exp(-v - 1)
-        denlan = math.exp(-u) * math.sqrt(u) * (p1[0] + (p1[1] + (p1[2] + (p1[3] + p1[4] * v) * v) * v) * v) / (q1[0] + (q1[1] + (q1[2] + (q1[3] + q1[4] * v) * v) * v) * v)
+        u = np.exp(-v - 1)
+        denlan = np.exp(-u) * np.sqrt(u) * (p1[0] + (p1[1] + (p1[2] + (p1[3] + p1[4] * v) * v) * v) * v) / (q1[0] + (q1[1] + (q1[2] + (q1[3] + q1[4] * v) * v) * v) * v)
 
     elif v < 1:
         denlan = (p2[0] + (p2[1] + (p2[2] + (p2[3] + p2[4] * v) * v) * v) * v) / (q2[0] + (q2[1] + (q2[2] + (q2[3] + q2[4] * v) * v) * v) * v)
@@ -99,7 +99,7 @@ def landauPDF(x, x0, xi):
         denlan = u * u * (p6[0] + (p6[1] + (p6[2] + (p6[3] + p6[4] * u) * u) * u) * u) / (q6[0] + (q6[1] + (q6[2] + (q6[3] + q6[4] * u) * u) * u) * u)
 
     else:
-        u = 1 / (v - v * math.log(v) / (v + 1))
+        u = 1 / (v - v * np.log(v) / (v + 1))
         denlan = u * u * (1 + (a2[0] + a2[1] * u) * u)
 
     return denlan / xi
@@ -108,7 +108,7 @@ def landauPDF(x, x0, xi):
 @njit
 @pylandau_numba_ext.export('get_gauss_pdf', 'f8(f8, f8, f8)')
 def gaussPDF(x, mu, sigma):
-    return 0.3989422804014 / sigma * math.exp(- math.pow((x - mu), 2) / (2 * math.pow(sigma, 2)))
+    return 0.3989422804014 / sigma * np.exp(- np.pow((x - mu), 2) / (2 * np.pow(sigma, 2)))
 
 
 @njit
