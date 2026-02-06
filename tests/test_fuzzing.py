@@ -1,6 +1,6 @@
 ''' Check pylandau with random inputs
 '''
-import unittest
+import pytest
 
 import numpy as np
 import pylandau
@@ -11,7 +11,7 @@ import hypothesis.strategies as st
 from tests import constraints
 
 
-class TestFuzzing(unittest.TestCase):
+class TestFuzzing():
 
     @given(st.floats(constraints.LANDAU_MIN_MPV,
                      constraints.LANDAU_MAX_MPV,
@@ -22,7 +22,7 @@ class TestFuzzing(unittest.TestCase):
         x = np.linspace(mpv - 10, mpv + 10, 1000)
         y = pylandau.landau(x, mpv=mpv, eta=1., A=1.)
         delta = x[1] - x[0]
-        self.assertAlmostEqual(x[np.argmax(y)], mpv, delta=delta)
+        assert float(x[np.argmax(y)]) == pytest.approx(mpv, abs=delta)
 
     @given(st.floats(constraints.LANGAU_MIN_MPV,
                      constraints.LANGAU_MAX_MPV,
@@ -33,7 +33,7 @@ class TestFuzzing(unittest.TestCase):
         x = np.linspace(mpv - 10, mpv + 10, 1000)
         y = pylandau.langau(x, mpv=mpv, eta=1., sigma=1., A=1.)
         delta = x[1] - x[0]
-        self.assertAlmostEqual(x[np.argmax(y)], mpv, delta=delta)
+        assert x[np.argmax(y)] == pytest.approx(mpv, abs=delta)
 
     @given(st.floats(constraints.LANDAU_MIN_A,
                      constraints.LANDAU_MAX_A,
@@ -44,7 +44,7 @@ class TestFuzzing(unittest.TestCase):
         mpv = 1.
         x = np.linspace(mpv - 10, mpv + 10, 1000)
         y = pylandau.landau(x, mpv=mpv, eta=1., A=A)
-        self.assertAlmostEqual(y.max(), A, delta=1e-4 * A)
+        assert y.max() == pytest.approx(A, abs=1e-4 * A)
 
     @given(st.floats(constraints.LANGAU_MIN_A,
                      constraints.LANGAU_MAX_A,
@@ -55,7 +55,7 @@ class TestFuzzing(unittest.TestCase):
         mpv = 1.
         x = np.linspace(mpv - 10, mpv + 10, 1000)
         y = pylandau.langau(x, mpv=mpv, eta=1., sigma=1., A=A)
-        self.assertAlmostEqual(y.max(), A, delta=1e-4 * A)
+        assert y.max() == pytest.approx(A, abs=1e-4 * A)
 
     @given(st.floats(constraints.LANDAU_MIN_MPV,
                      constraints.LANDAU_MAX_MPV,
@@ -69,12 +69,13 @@ class TestFuzzing(unittest.TestCase):
                      constraints.LANDAU_MAX_A,
                      allow_nan=False,
                      allow_infinity=False))
+    
     def test_landau_stability(self, mpv, eta, A):
         ''' Check Landau outputs for same input parameters '''
         x = np.linspace(mpv - 5 * eta, mpv + 5 * eta, 1000)
         y_1 = pylandau.landau(x, mpv=mpv, eta=eta, A=A)
         y_2 = pylandau.landau(x, mpv=mpv, eta=eta, A=A)
-        self.assertTrue(np.all(y_1 == y_2))
+        assert np.all(y_1 == y_2) == True
 
     @given(st.floats(constraints.LANGAU_MIN_MPV,
                      constraints.LANGAU_MAX_MPV,
@@ -93,6 +94,7 @@ class TestFuzzing(unittest.TestCase):
                      allow_nan=False,
                      allow_infinity=False)
            )
+    
     def test_langau_stability(self, mpv, eta, sigma, A):
         ''' Check Langau outputs for same input parameters '''
         # Correct input to avoid oscillations
@@ -102,9 +104,7 @@ class TestFuzzing(unittest.TestCase):
         x = np.linspace(mpv - 5 * sigma * eta, mpv + 5 * sigma * eta, 1000)
         y_1 = pylandau.langau(x, mpv=mpv, eta=eta, sigma=sigma, A=A)
         y_2 = pylandau.langau(x, mpv=mpv, eta=eta, sigma=sigma, A=A)
-        self.assertTrue(np.all(y_1 == y_2))
-
+        assert np.all(y_1 == y_2) == True
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestFuzzing)
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    pytest.main()

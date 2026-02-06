@@ -1,16 +1,6 @@
-# distutils: language=c++
-# distutils: define_macros=CYTHON_TRACE=1
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: embedsignature=True
-# cython: linetrace=True
-# cython: language_level=3
-
 import numpy as np
-cimport numpy as cnp
-cnp.import_array()
-
 from scipy.optimize import fmin
+from pylandau import pylandau_ext
 
 from scipy.optimize import fmin
 import logging
@@ -20,59 +10,44 @@ logging.basicConfig()
 logger = logging.getLogger(__name__)
 
 
-cdef extern from "numpy/arrayobject.h":
-    void PyArray_ENABLEFLAGS(cnp.ndarray arr, int flags)
+# Define functions for top-level
+__all__ = ['get_landau_pdf', 'get_gauss_pdf', 'get_langau_pdf', 'landau_pdf', 'langau_pdf', 'get_landau', 'get_langau', 'landau', 'langau']
 
-
-cdef extern from "pylandau_src.cpp":
-    double * getLandauPDFData(double * & data, const unsigned int & size, const double & mu, const double & eta) except +
-    double * getLangauPDFData(double * & data, const unsigned int & size, const double & mu, const double & eta, const double & sigma) except +
-    double landauPDF(const double & x, const double & xi, const double & x0) except +
-    double landauGaussPDF(const double & x, const double & mu, const double & eta, const double & sigma) except +
-    double gaussPDF(const double & x, const double & mu, const double & sigma)
-
-
-cdef data_to_numpy_array_double(cnp.double_t * ptr, cnp.npy_intp N):
-    cdef cnp.ndarray[cnp.double_t, ndim = 1] arr = cnp.PyArray_SimpleNewFromData(1, < cnp.npy_intp * > & N, cnp.NPY_DOUBLE, < cnp.double_t * > ptr)
-    PyArray_ENABLEFLAGS(arr, cnp.NPY_OWNDATA)
-    return arr
-
-cdef cnp.double_t * result = NULL
-
-
-# The pdf are defined by the original algorithm where mu != MPV
 
 def get_landau_pdf(value, mu=0, eta=1):
-    return landauPDF(< const double&> value, < const double&> mu, < const double&> eta)
+    value, mu, eta, _ = _ensure_types(value, mu, eta, None)
+    return pylandau_ext.get_landau_pdf(value, mu, eta)
 
 
 def get_gauss_pdf(value, mu=0, sigma=1):
-    return gaussPDF(< const double&> value, < const double&> mu, < const double&> sigma)
+    value, mu, _, sigma = _ensure_types(value, mu, None, sigma)
+    return pylandau_ext.get_gauss_pdf(value, mu, sigma)
 
 
 def get_langau_pdf(value, mu=0, eta=1, sigma=1):
-    return landauGaussPDF( < const double&> value, < const double&> mu, < const double&> eta, < const double&> sigma)
+    value, mu, eta, sigma = _ensure_types(value, mu, eta, sigma)
+    return pylandau_ext.get_langau_pdf(value, mu, eta, sigma)
 
 
-def landau_pdf(cnp.ndarray[cnp.double_t, ndim=1] array, mu=0, eta=1):
-    mpv, eta, sigma, _ = _check_parameter(mpv=mu, eta=eta, sigma=0.)
-    result = getLandauPDFData( < double*& > array.data, < const unsigned int&> array.shape[0], < const double&> mu, < const double&> eta)
-    return data_to_numpy_array_double(result, array.shape[0])
+def landau_pdf(array, mu=0, eta=1):
+    _check_parameter(mpv=mu, eta=eta, sigma=0.)
+    array, mu, eta, _ = _ensure_types(array, mu, eta, sigma=None, val_is_array=True)
+    return pylandau_ext.landau_pdf(array, mu, eta)
 
 
-def langau_pdf(cnp.ndarray[cnp.double_t, ndim=1] array, mu=0, eta=1, sigma=1):
-    mpv, eta, sigma, _ = _check_parameter(mpv=mu, eta=eta, sigma=sigma)
-    result = getLangauPDFData( < double*& > array.data, < const unsigned int&> array.shape[0], < const double&> mu, < const double&> eta, < const double&> sigma)
-    if result != NULL:
-        return data_to_numpy_array_double(result, array.shape[0])
+def langau_pdf(array, mu=0, eta=1, sigma=1):
+    _check_parameter(mpv=mu, eta=eta, sigma=sigma)
+    array, mu, eta, sigma = _ensure_types(array, mu, eta, sigma, val_is_array=True)
+    return pylandau_ext.langau_pdf(array, mu, eta, sigma)
 
 
 # These function add a amplitude parameter A and shift the function that mu = MPV
 # This is done numerically very simple, stability might suffer
 
+
 def get_landau(value, mpv=0, eta=1, A=1):
-    mpv, eta, sigma, A = _check_parameter(mpv=mpv, eta=eta, sigma=0., A=A)
-    mpv_scaled, eta, sigma, A_scaled = _scale_to_mpv(mpv, eta, sigma=0, A=A)
+    mpv, eta, _, A = _check_parameter(mpv=mpv, eta=eta, sigma=0., A=A)
+    _, eta, _, A_scaled = _scale_to_mpv(mpv, eta, sigma=0, A=A)
 
     # Numerical scaling maximum to A
     return get_landau_pdf(value, eta) * A_scaled
@@ -80,31 +55,30 @@ def get_landau(value, mpv=0, eta=1, A=1):
 
 def get_langau(value, mpv=0, eta=1, sigma=1, A=1, scale_langau=True):
     mpv, eta, sigma, A = _check_parameter(mpv=mpv, eta=eta, sigma=sigma, A=A)
-    mpv_scaled, eta, sigma, A_scaled = _scale_to_mpv(mpv, eta, sigma, A)
+    _, eta, sigma, A_scaled = _scale_to_mpv(mpv, eta, sigma, A)
 
     if scale_langau:
-        mpv_scaled, _, _, A_scaled = _scale_to_mpv(mpv, eta, sigma, A=A)
+        _, _, _, A_scaled = _scale_to_mpv(mpv, eta, sigma, A=A)
     else:
-        mpv_scaled, _, _, A_scaled = _scale_to_mpv(mpv, eta, sigma=0, A=A)
+        _, _, _, A_scaled = _scale_to_mpv(mpv, eta, sigma=0, A=A)
 
     # Numerical scaling maximum to A
     return get_langau_pdf(value, eta, sigma) * A_scaled
 
 
-def landau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, A=1):
+def landau(array, mpv=0, eta=1, A=1):
     if (A == 0.):
         return np.zeros_like(array)
 
-    mpv, eta, sigma, A = _check_parameter(mpv=mpv, eta=eta, sigma=0., A=A)
-    mpv_scaled, eta, sigma, A_scaled = _scale_to_mpv(mpv, eta, sigma=0., A=A)
+    mpv, eta, _, A = _check_parameter(mpv=mpv, eta=eta, sigma=0., A=A)
+    mpv_scaled, eta, _, A_scaled = _scale_to_mpv(mpv, eta, sigma=0., A=A)
 
     # Numerical scaling maximum to A
     return landau_pdf(array, mpv_scaled, eta) * A_scaled
 
 
-def langau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, sigma=1, A=1, scale_langau=True):
+def langau(array, mpv=0, eta=1, sigma=1, A=1, scale_langau=True):
     ''' Returns a Landau convoluded with a Gaus.
-
     If scale_langau is true the Langau function maximum is at mpv with amplitude A.
     Otherwise the Landau function maximum is at mpv with amplitude A, thus not the resulting Langau. '''
 
@@ -125,6 +99,40 @@ def langau(cnp.ndarray[cnp.double_t, ndim=1] array, mpv=0, eta=1, sigma=1, A=1, 
     return langau_pdf(array, mpv_scaled, eta, sigma) * A_scaled
 
 
+def _ensure_types(val, mu, eta, sigma, val_is_array=False):
+    """
+    Function to cater correct types to Numba-generated extension.
+
+    Parameters
+    ----------
+    val : float, int, array
+        Input value to be converted to float or np.array.astype(float)
+    mu : float, int
+        Mean of distribution
+    eta : float, int, None
+        Eta of distribution
+    sigma : float, int, None
+        Sigma of distribution
+    val_is_array : bool, optional
+        Whether the *val* argument needs to be an array, by default False
+    """
+
+    # Convert to f8
+    if isinstance(mu, np.ndarray):
+        mu = mu[0]
+    if isinstance(eta, np.ndarray):
+        eta = eta[0]
+    if isinstance(sigma, np.ndarray):
+        sigma = sigma[0]
+    mu, eta, sigma = (float(x) if x is not None else None for x in (mu, eta, sigma))
+
+    if isinstance(val, np.ndarray) and not val_is_array:
+        val = val[0]
+    val = val.astype(float) if val_is_array else float(val)
+
+    return val, mu, eta, sigma
+
+
 def _check_parameter(mpv, eta, sigma, A=1.):
     if eta < 1e-9:
         logger.warning('eta < 1e-9 is not supported. eta set to 1e-9.')
@@ -135,7 +143,8 @@ def _check_parameter(mpv, eta, sigma, A=1.):
         logger.warning('sigma > 100 * eta can lead to oszillations. Check result.')
     if A < 0.:
         raise ValueError('A has to be >= 0')
-
+    if isinstance(mpv, np.ndarray):
+        mpv = mpv[0]
     return float(mpv), float(eta), float(sigma), float(A)
 
 
@@ -165,8 +174,8 @@ def _scale_to_mpv(mu, eta, sigma=0., A=None):
         raise RuntimeError(
             'Cannot calculate MPV, check function parameters and file bug report!')
 
-    if A:
+    if A and -res[1] != 0:
         A = A / -res[1]
         return mu + (mu - res[0]), eta, sigma, A
     else:
-        return mu + (mu - res[0]), eta, sigma
+        return mu + (mu - res[0]), eta, sigma, A
