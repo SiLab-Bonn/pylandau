@@ -1,54 +1,46 @@
 name: Build wheels
 
-on: workflow_dispatch
-  # release
+on: [push]
 
 jobs:
-  build_wheels:
-    name: Build wheels on ${{matrix.os}}
-    runs-on: ${{matrix.os}}
-    strategy:
-      matrix:
-        os: [ubuntu-20.04, windows-2019, macos-11]
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Build wheels
-      uses: pypa/cibuildwheel@v2.3.0
-      with:
-        output-dir: wheels
-      env:
-        CIBW_ARCHS: auto64  # Build 64bit versions only
-        CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
-        CIBW_MANYLINUX_AARCH64_IMAGE: manylinux2014
-        CIBW_BUILD: cp38-* cp39-* cp310-*  # Build on CPython 3.8 - 3.10 only
-        CIBW_PROJECT_REQUIRES_PYTHON: ">=3.8"
-        CIBW_SKIP: "*-manylinux_i686 *_ppc64le *_s390x *-musllinux*"
-        CIBW_ARCHS_MACOS: x86_64 arm64
-        CIBW_TEST_REQUIRES: hypothesis pytest
-        CIBW_TEST_COMMAND: pytest {package}/tests
-        CIBW_TEST_SKIP: "*-macosx_arm64 *-macosx_universal2:arm64"
-
-    - uses: actions/upload-artifact@v2
-      with:
-        path: ./wheels/*.whl
-
-  build_sdist:
-    name: Build source distribution
+  build:
+    name: Build wheels
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
+    - name: Setup Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: 3.13
+    - name: Install build
+      run: |
+        python -m pip install --upgrade pip
+        pip install build
 
-      - uses: actions/setup-python@v2
-        with:
-          cache: 'pip'
+    - name: Build
+      run:
+        python3 -m build
 
-      - name: Install build module
-        run: python -m pip install build setuptools
+    - uses: actions/upload-artifact@v7
+      with:
+        name: package-dist
+        path: dist
 
-      - name: Build sdist
-        run: python -m build --sdist
+  upload:
+    name: Upload wheels and sdist
+    runs-on: ubuntu-latest
 
-      - uses: actions/upload-artifact@v2
-        with:
-          path: dist/*.tar.gz
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    needs: [build]
+    environment:
+      name: pypi
+      url: https://pypi.org/p/pylandau
+    permissions:
+      id-token: write
+
+    steps:
+    - uses: actions/download-artifact@v8
+      with:
+        name: package-dist
+        path: dist
+    - uses: pypa/gh-action-pypi-publish@release/v1
