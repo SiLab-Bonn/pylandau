@@ -2,7 +2,7 @@
 name = 'pylandau'
 version = '3.0.0'
 description = 'A Landau PDF definition to be used in Python.'
-license = {file = 'LICENSE'}
+license-files = ['LICENSE']
 requires-python = '>=3.10'
 readme = 'README.md'
 authors = [
@@ -20,7 +20,6 @@ dependencies = [
 ]
 classifiers = [
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: GNU Lesser General Public License v2 (LGPLv2)",
     "Topic :: Scientific/Engineering",
     "Topic :: Scientific/Engineering :: Physics",
     "Topic :: Scientific/Engineering :: Mathematics",
@@ -29,6 +28,9 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+]
+keywords = [
+    "Landau", "Langau", "PDF"
 ]
 
 [project.urls]
@@ -44,3 +46,10 @@ requires = [
     "scipy>=1.7",
 ]  # PEP 508 specifications
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["pylandau"]
+py-modules = ["src.pylandau_src"]
+
+[tool.setuptools.package-dir]
+pylandau = "pylandau"
