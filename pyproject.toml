@@ -49,7 +49,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 packages = ["pylandau"]
-py-modules = ["pylandau_src"]
+py-modules = ["src.pylandau_src"]
 
 [tool.setuptools.package-dir]
-"pylandau_src" = "src"
+pylandau = "pylandau"
