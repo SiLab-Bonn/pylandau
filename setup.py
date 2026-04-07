@@ -7,12 +7,9 @@ if os.getcwd() not in sys.path: # Needed for install instead of develop
 
 from src.pylandau_src import pylandau_numba_ext
 
-install_requires = ['numba>=0.53', 'numpy>=1.21', 'scipy>=1.7']
-
 
 if __name__ == '__main__':
     setup(
-        install_requires=install_requires,
         packages=find_packages(),
         include_package_data=True,  # accept all data files and directories matched by MANIFEST.in or found in source control
         package_data={'': ['README.*', 'VERSION'], 'docs': ['*'], 'examples': ['*']},
