@@ -2,7 +2,7 @@
 name = 'pylandau'
 version = '3.0.0'
 description = 'A Landau PDF definition to be used in Python.'
-license = {file = 'LICENSE'}
+license-files = ['LICENSE']
 requires-python = '>=3.10'
 readme = 'README.md'
 authors = [
