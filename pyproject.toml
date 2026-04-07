@@ -3,14 +3,14 @@ name = 'pylandau'
 version = '3.0.0'
 description = 'A Landau PDF definition to be used in Python.'
 license = {file = 'LICENSE'}
-requires-python = '>=3.8'
+requires-python = '>=3.10'
 readme = 'README.md'
 authors = [
     {name = 'David-Leon Pohl', email = 'pohl@physik.uni-bonn.de'}, 
-    {name = 'Christian Bespin', email = 'bespin@physik.uni-bonn.de'}
+    {name = 'Christian Bespin', email = 'cbespin@uni-bonn.de'}
 ]
 maintainers = [ 
-    {name = 'Christian Bespin', email = 'bespin@physik.uni-bonn.de'},
+    {name = 'Christian Bespin', email = 'cbespin@uni-bonn.de'},
     {name = 'Pascal Wolf', email = 'wolf@physik.uni-bonn.de'}
 ]
 dependencies = [
