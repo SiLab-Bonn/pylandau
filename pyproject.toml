@@ -46,3 +46,10 @@ requires = [
     "scipy>=1.7",
 ]  # PEP 508 specifications
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["pylandau"]
+py-modules = ["pylandau_src"]
+
+[tool.setuptools.package-dir]
+"pylandau_src" = "src"
