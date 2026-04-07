@@ -17,6 +17,5 @@ if __name__ == '__main__':
         include_package_data=True,  # accept all data files and directories matched by MANIFEST.in or found in source control
         package_data={'': ['README.*', 'VERSION'], 'docs': ['*'], 'examples': ['*']},
         ext_modules=[pylandau_numba_ext.distutils_extension()],
-        keywords=['Landau', 'Langau', 'PDF'],
         platforms='any'
 )
